@@ -1,0 +1,28 @@
+// libraries
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+@import "functions";
+@import "helpers";
+@import "variables";
+@import "templates";
+
+// global styles 
+html,
+body {
+	margin:0;
+	padding:0; 
+	overflow-x: hidden;
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+
+@media print {
+	@page {
+		margin: 2cm 1cm; // margin for each printed piece of paper
+	}
+
+	@page :first {
+		margin: 0cm 1cm 1cm; // top margin for first page of paper
+	}
+}

@@ -1,0 +1,75 @@
+header {
+	padding: 2rem 0;
+
+	.brand {
+		display: flex;
+		align-items: center;
+
+		&__logo {
+			display: flex;
+			align-items: center;
+
+			img {
+				display: block;
+				width: 200px;
+			}
+		}
+
+		&__slogan {
+			@include font(button, medium);
+			flex-grow: 1;
+			text-align: right;
+			text-transform: uppercase;
+			font-size: 0.5rem;
+			letter-spacing: 0.2rem;
+		}
+	}
+
+	.title {
+		display: flex;
+		margin-top: 4rem;
+
+		.name {
+			flex-grow: 1;
+			margin: 0;
+
+			&__line1,
+			&__line2 {
+				display: block;
+				text-transform: uppercase;
+				font-size: 2.3rem;
+				line-height: 2.3rem;
+			}
+
+			&__line1 {
+				@include font(heading, black);
+			}
+
+			&__line2 {
+				@include font(heading, light);
+			}
+		}
+
+		.qrcode {
+			display: flex;
+
+			&__letter {
+				@include font(heading, black);
+				margin-left: 1.5rem;
+				font-size: 6rem;
+				line-height: 4.5rem;
+			}
+
+			&__image {
+				display: flex;
+				justify-items: center;
+
+				img {
+					display: block;
+					width: 70px;
+					height: 70px;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,356 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+.align-right {
+  text-align: right; }
+
+.align-center {
+  text-align: center; }
+
+.underline {
+  text-decoration: underline; }
+
+.print-only {
+  display: none; }
+
+@media print {
+  .web-only {
+    display: none !important; }
+  .print-only {
+    display: block; } }
+
+html, body {
+  margin: 0;
+  padding: 0; }
+
+#editable-contracts {
+  position: relative;
+  padding-bottom: 100px;
+  background-color: #DADEDE; }
+  #editable-contracts header {
+    padding: 2rem 0;
+    background-color: #FDFDFD; }
+    #editable-contracts header .brand {
+      display: flex;
+      align-items: center; }
+      #editable-contracts header .brand__logo {
+        display: flex;
+        align-items: center; }
+        #editable-contracts header .brand__logo img {
+          display: block;
+          width: 200px; }
+      #editable-contracts header .brand__slogan {
+        font-family: "Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        flex-grow: 1;
+        text-align: right;
+        text-transform: uppercase;
+        font-size: 0.5rem;
+        letter-spacing: 0.2rem; }
+    #editable-contracts header .title {
+      display: flex;
+      margin-top: 4rem; }
+      #editable-contracts header .title .name {
+        flex-grow: 1;
+        margin: 0; }
+        #editable-contracts header .title .name__line1, #editable-contracts header .title .name__line2 {
+          display: block;
+          text-transform: uppercase;
+          font-size: 2.3rem;
+          line-height: 2.3rem; }
+        #editable-contracts header .title .name__line1 {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 900;
+          font-style: normal; }
+        #editable-contracts header .title .name__line2 {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 100;
+          font-style: normal; }
+      #editable-contracts header .title .qrcode {
+        display: flex; }
+        #editable-contracts header .title .qrcode__letter {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 900;
+          font-style: normal;
+          margin-left: 1.5rem;
+          font-size: 6rem;
+          line-height: 4.5rem; }
+        #editable-contracts header .title .qrcode__image {
+          display: flex;
+          justify-items: center; }
+          #editable-contracts header .title .qrcode__image img {
+            display: block;
+            width: 70px;
+            height: 70px; }
+  #editable-contracts footer {
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    background-color: #949DA0;
+    font-size: 10px; }
+    #editable-contracts footer a {
+      color: #000000; }
+  #editable-contracts nav {
+    position: fixed;
+    bottom: 25px;
+    right: 25px; }
+    #editable-contracts nav .nav-item {
+      margin-left: 1rem; }
+    #editable-contracts nav .icon {
+      margin-right: 10px; }
+    @media print {
+      #editable-contracts nav {
+        display: none; } }
+  #editable-contracts section {
+    display: flex;
+    margin-bottom: 3rem;
+    text-align: justify;
+    box-decoration-break: clone; }
+    @media print {
+      #editable-contracts section {
+        break-before: avoid-page;
+        page-break-inside: avoid;
+        margin-bottom: 0.5cm; } }
+    #editable-contracts section, #editable-contracts section p, #editable-contracts section h2 {
+      font-size: 0.8rem; }
+    #editable-contracts section a {
+      color: #000000; }
+    #editable-contracts section .index {
+      flex: 0 0 40px;
+      margin-right: 1rem; }
+      #editable-contracts section .index .block-number {
+        font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        display: inline-block;
+        padding: 0.25rem 0.7rem;
+        background-color: #4F5662;
+        font-size: 2rem;
+        line-height: 2rem;
+        color: #FDFDFD; }
+    #editable-contracts section .content {
+      flex-grow: 1; }
+      #editable-contracts section .content .title {
+        font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        margin: 0;
+        text-transform: uppercase; }
+        #editable-contracts section .content .title.inline {
+          display: inline-block; }
+        #editable-contracts section .content .title .subtitle {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 100;
+          font-style: normal; }
+      #editable-contracts section .content .body.inline .title,
+      #editable-contracts section .content .body.inline > p {
+        display: inline; }
+      #editable-contracts section .content .body.inline .title {
+        padding-right: 10px;
+        margin-right: 10px;
+        border-right: 2px solid #000000; }
+      #editable-contracts section .content .body.inline > p {
+        margin: 0 2rem 0 0; }
+      #editable-contracts section .content .body.inline > p,
+      #editable-contracts section .content .body.inline > p * {
+        font-size: 0.9rem; }
+      #editable-contracts section .content .body.columns {
+        display: flex; }
+        #editable-contracts section .content .body.columns > * {
+          width: 50%; }
+        #editable-contracts section .content .body.columns .filled {
+          align-self: end;
+          margin-right: 1rem; }
+      #editable-contracts section .content .body + .body {
+        margin-top: 1rem; }
+      #editable-contracts section .content p {
+        margin: 0;
+        padding: 0.3rem 0 0.2rem; }
+      #editable-contracts section .content strong {
+        font-family: "Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+        font-weight: 700;
+        font-style: normal; }
+      #editable-contracts section .content em {
+        font-family: "Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+        font-weight: 400;
+        font-style: italic; }
+      #editable-contracts section .content .filled {
+        border-bottom: 1px solid #4F5662;
+        font-size: 1rem;
+        text-align: left; }
+        #editable-contracts section .content .filled.disabled {
+          color: #000000; }
+        #editable-contracts section .content .filled > * {
+          margin-right: 5px; }
+    #editable-contracts section table {
+      font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+      font-weight: 100;
+      font-style: normal;
+      width: 100%;
+      padding: 0;
+      margin-top: 1rem;
+      border-spacing: 0;
+      text-align: left;
+      text-transform: uppercase; }
+      #editable-contracts section table.small td {
+        padding: 0.5rem; }
+      #editable-contracts section table tr td:nth-of-type(n+3) {
+        text-align: right; }
+      #editable-contracts section table thead td {
+        font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000; }
+      #editable-contracts section table thead .description {
+        font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+        font-weight: 100;
+        font-style: normal;
+        text-align: right;
+        text-transform: uppercase; }
+      #editable-contracts section table tbody td {
+        padding-bottom: 0; }
+      #editable-contracts section table tbody tr.border.highlight-row td {
+        border-bottom: 2px solid #ef8354; }
+      #editable-contracts section table tbody tr.border td {
+        border-bottom: 1px solid #4F5662;
+        padding-bottom: 0.5rem; }
+      #editable-contracts section table tbody .checkbox {
+        position: relative;
+        top: 3px;
+        display: inline-block;
+        margin-right: 5px;
+        width: 15px; }
+      #editable-contracts section table tbody .button {
+        font-family: "Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        display: inline-block;
+        padding: 5px 12px;
+        background: #ef8354;
+        color: #FDFDFD;
+        letter-spacing: 2px;
+        font-size: 0.7rem; }
+      #editable-contracts section table .description {
+        text-transform: initial; }
+      #editable-contracts section table .room, #editable-contracts section table .room__info, #editable-contracts section table .room__icon {
+        display: flex;
+        align-items: center; }
+      #editable-contracts section table .room__info {
+        margin-right: 8px; }
+      #editable-contracts section table .room__icon {
+        margin-right: 5px; }
+    #editable-contracts section .prompt {
+      font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+      font-weight: 100;
+      font-style: normal;
+      padding: 1rem;
+      font-size: 0.7rem;
+      text-align: left; }
+      @media print {
+        #editable-contracts section .prompt {
+          page-break-inside: avoid;
+          padding: 0; } }
+      #editable-contracts section .prompt.signature {
+        position: relative;
+        height: 100px; }
+        @media print {
+          #editable-contracts section .prompt.signature {
+            border: 2px solid #000000; } }
+        #editable-contracts section .prompt.signature img {
+          width: 100%; }
+        #editable-contracts section .prompt.signature .label {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 900;
+          font-style: normal;
+          position: absolute;
+          top: 5px;
+          left: 10px;
+          text-transform: uppercase;
+          font-size: 0.8rem; }
+        #editable-contracts section .prompt.signature .date {
+          font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+          font-weight: 100;
+          font-style: normal;
+          position: absolute;
+          top: 5px;
+          right: 10px;
+          text-transform: uppercase;
+          font-size: 0.7rem; }
+      #editable-contracts section .prompt.disabled {
+        background-color: #949DA0; }
+      #editable-contracts section .prompt .action {
+        position: absolute;
+        top: 8px;
+        right: 0; }
+        @media print {
+          #editable-contracts section .prompt .action {
+            display: none; } }
+        #editable-contracts section .prompt .action button {
+          background: none;
+          border: none;
+          cursor: pointer; }
+      #editable-contracts section .prompt .sig-canvas {
+        width: 365px;
+        height: 100px; }
+      #editable-contracts section .prompt .user-input {
+        display: flex;
+        align-items: center; }
+        @media print {
+          #editable-contracts section .prompt .user-input {
+            margin-top: 0.5rem; } }
+        #editable-contracts section .prompt .user-input label {
+          margin-right: 10px; }
+        #editable-contracts section .prompt .user-input input {
+          flex-grow: 1; }
+      #editable-contracts section .prompt .locked-input {
+        font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+        font-weight: 100;
+        font-style: normal; }
+  #editable-contracts .container {
+    width: 800px;
+    margin: 0 auto;
+    font-family: "Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+    font-weight: 400;
+    font-style: normal; }
+    @media print {
+      #editable-contracts .container {
+        width: 100%; } }
+  #editable-contracts main {
+    padding: 3rem 0 2rem; }
+  #editable-contracts .prompt.signature {
+    cursor: crosshair; }
+  #editable-contracts .part1.locked .prompt,
+  #editable-contracts .part2.locked .prompt,
+  #editable-contracts.master-agreement .locked .prompt {
+    background-color: #949DA0; }
+    #editable-contracts .part1.locked .prompt.signature,
+    #editable-contracts .part2.locked .prompt.signature,
+    #editable-contracts.master-agreement .locked .prompt.signature {
+      cursor: auto; }
+  #editable-contracts #submit-part {
+    justify-content: center; }
+  #editable-contracts .notice {
+    font-family: "Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    width: 100%;
+    padding: 1rem;
+    background-color: #B7BFBF;
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-align: center; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif; }
+
+@media print {
+  @page {
+    margin: 2cm 1cm; }
+  @page :first {
+    margin: 0cm 1cm 1cm; } }
+

@@ -1,0 +1,29 @@
+.align-right {
+	text-align: right;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.underline { 
+	text-decoration: underline;
+}
+
+// .web-only { 
+// 	display: flex; 
+// }
+
+.print-only { 
+	display: none; 
+}
+
+@media print {
+	.web-only { 
+		display: none !important; 
+	}
+
+	.print-only { 
+		display: block; 
+	}
+}

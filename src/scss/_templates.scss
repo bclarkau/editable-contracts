@@ -1,0 +1,60 @@
+html, body {
+	margin: 0; 
+	padding: 0; 
+}
+
+#editable-contracts {
+	@import 'header';
+	@import 'footer';
+	@import 'nav';
+	@import 'section';
+
+	position: relative;
+	padding-bottom: 100px;
+
+	.container {
+		width: 800px;
+		margin: 0 auto;
+		@include font(body, normal);
+
+		@media print {
+			width: 100%;
+		}
+	}
+
+	main {
+		padding: 3rem 0 2rem;
+	}
+
+	.prompt {
+		// background-color: $prompt;
+
+		&.signature {
+			cursor: crosshair;
+		}
+	}
+
+	.part1.locked .prompt,
+	.part2.locked .prompt,
+	&.master-agreement .locked .prompt {
+		background-color: $mid;
+
+		&.signature {
+			cursor: auto;
+		}
+	}
+
+	#submit-part {
+		justify-content: center;
+	}
+
+	.notice {
+		@include font(heading, black);
+		width: 100%;
+		padding: 1rem;
+		background-color: $light;
+		text-transform: uppercase;
+		font-size: 1rem;
+		text-align: center;
+	}
+}

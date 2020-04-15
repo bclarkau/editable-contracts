@@ -1,0 +1,17 @@
+nav {
+	position: fixed;
+	bottom: 25px;
+	right: 25px;
+
+	.nav-item {
+		margin-left: 1rem;
+	}
+
+	.icon {
+		margin-right: 10px;
+	}
+
+	@media print {
+		display: none;
+	}
+}

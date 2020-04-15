@@ -1,0 +1,327 @@
+section {
+	display: flex;
+	margin-bottom: 3rem;
+	text-align: justify;
+	box-decoration-break: clone;
+	
+	@media print {
+		break-before: avoid-page;
+		page-break-inside: avoid;
+		margin-bottom: 0.5cm;
+	}
+
+	&, p, h2 {
+		font-size: 0.8rem;
+	}
+
+	a {
+		color: $text-dark;
+	}
+
+	.index {
+		flex: 0 0 40px;
+		margin-right: 1rem;
+
+		.block-number {
+			@include font(heading, black);
+
+			display: inline-block;
+			padding: 0.25rem 0.7rem; 
+			background-color: $text;
+			border-radius: 100%;
+			font-size: 2rem; 
+			line-height: 2rem; 
+			color: $lightest;
+		}
+	}
+
+	.content {
+		flex-grow: 1;
+
+		.title {
+			@include font(heading, black);
+			margin: 0;
+			text-transform: uppercase;
+			
+			&.inline {
+				display: inline-block;
+			}
+	
+			.subtitle {
+				@include font(heading, light);
+			}
+		}
+	
+		.body {
+			&.inline .title,
+			&.inline > p {
+				display: inline;
+			}
+
+			&.inline .title {
+				padding-right: 10px;
+				margin-right: 10px;
+				border-right: 2px solid $text-dark;
+			}
+
+			&.inline > p {
+				margin: 0 2rem 0 0;
+			}
+
+			&.inline > p,
+			&.inline > p * {
+				font-size: 0.9rem;
+			}
+
+			&.columns {
+				display: flex; 
+
+				& > * {
+					width: 50%;
+				}
+
+				.filled {
+					align-self: end;
+					margin-right: 1rem; 
+				}
+			}
+		}
+
+		.body + .body {
+			margin-top: 1rem; 
+		}
+
+		p {
+			margin: 0;
+			padding: 0.3rem 0 0.2rem;
+
+			&.pullout,
+			.pullout { 
+				// color: $pullout;
+			}
+		}
+
+		strong {
+			@include font(body, bold);
+		}
+
+		em {
+			@include font(body, italic);
+		}
+
+		.highlight {
+			// color: $highlight;
+		}
+
+		.pullout {
+			// color: $pullout;
+		}
+
+		.filled {
+			border-bottom: 1px solid $darker;
+			// color: $pullout;
+			font-size: 1rem;
+			text-align: left;
+
+			&.disabled {
+				color: $text-dark;
+			}
+
+			& > * {
+				margin-right: 5px;
+			}
+		}
+	}
+
+	table {
+		@include font(heading, light);
+		width: 100%;
+		padding: 0; 
+		margin-top: 1rem;
+		border-spacing: 0;
+		text-align: left;
+		text-transform: uppercase;
+
+		&.small {
+			td { 
+				padding: 0.5rem; 
+			}
+		}
+
+		// all columns except the first two are center aligned
+		tr td:nth-of-type(n+3) {
+			text-align: right;
+		}
+
+		thead {
+			td {
+				@include font(heading, black);
+				border-top: 2px solid $text-dark;
+				border-bottom: 2px solid $text-dark; 
+			}
+
+			.description {
+				@include font(heading, light);
+				text-align: right;
+				text-transform: uppercase;
+
+			}
+		}
+
+		tbody {
+			td {
+				padding-bottom: 0;
+			}
+			
+			tr.border {
+				&.highlight-row td {
+					// border-bottom: 2px solid $pullout;
+					border-bottom: 2px solid $primary;
+				}
+
+				td {
+					border-bottom: 1px solid $darker;
+					padding-bottom: 0.5rem;
+				}
+			}
+
+			tr:not(.border) + tr.border td {
+				// padding-top: 0;
+			}
+
+			.checkbox {
+				position: relative;
+				top: 3px;
+				display: inline-block;
+				margin-right: 5px;
+				width: 15px;
+			}
+
+			.button { 
+				@include font(button, black);
+				display: inline-block;
+				padding: 5px 12px;
+				// background: $pullout;
+				background: $primary;
+				color: $lightest;
+				letter-spacing: 2px;
+				font-size: 0.7rem;
+
+				&.secondary {
+					// background: $highlight;
+				}
+			}
+		}
+
+		.description {
+			text-transform: initial;
+		}
+
+		.room {
+			&, &__info, &__icon {
+				display: flex;
+				align-items: center;
+			}
+
+			&__info {
+				margin-right: 8px; 
+			}
+
+			&__icon {
+				margin-right: 5px;
+			}
+		}
+	}
+
+	.prompt {
+		@include font(heading, light);
+		padding: 1rem;
+		font-size: 0.7rem;
+		text-align: left;
+		
+		@media print {
+			page-break-inside: avoid;
+			padding: 0;
+		}
+		
+		&.signature {
+			position: relative;
+			height: 100px;
+
+			@media print {
+				border: 2px solid $text-dark;
+			}
+
+			img {
+				width: 100%;
+			}
+
+			.label {
+				@include font(heading, black);
+				position: absolute;
+				top: 5px;
+				left: 10px;
+				text-transform: uppercase;
+				font-size: 0.8rem;
+			}
+
+			.date {
+				@include font(heading, light);
+				position: absolute;
+				top: 5px;
+				right: 10px;
+				text-transform: uppercase;
+				font-size: 0.7rem;
+			}
+		}
+
+		&.disabled {
+			background-color: $mid;
+		}
+
+		.action {
+			position: absolute;
+			top: 8px;
+			right: 0;
+
+			@media print {
+				display: none;
+			}
+
+			button {
+				background: none;
+				border: none;
+				cursor: pointer;
+			}
+
+		}
+
+		.sig-canvas {
+			width: 365px;
+			height: 100px;
+		}
+		
+		.user-input {
+			display: flex;
+			align-items: center;
+
+			@media print {
+				margin-top: 0.5rem;
+			}
+
+			label {
+				margin-right: 10px; 
+			}
+
+			input {
+				flex-grow: 1;
+			}
+		}
+
+		.locked-input {
+			@include font(heading, light);
+			// color: $highlight;
+		}
+
+	}
+}
