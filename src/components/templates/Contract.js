@@ -69,8 +69,8 @@ const ContractTemplate = props => {
 
 				<main>
 					<article className="container">
-						<SectionEvent event={contract.event} />
-						<SectionHotel hotel={contract.hotel} />
+						<SectionEvent event={contract.event} id={ref} />
+						<SectionHotel hotel={contract.hotel} id={ref} />
 						<Footer />
 					</article>
 				</main>
@@ -112,29 +112,97 @@ export const Footer = props => {
 }
 
 export const SectionEvent = props => {
+	const [name, setName] = useState(props.event.name);
+	const [venue, setVenue] = useState(props.event.venue);
+	const [start, setStart] = useState(props.event.start);
+	const [end, setEnd] = useState(props.event.end);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
+	const [error, setError] = useState(null);
+
+	let classes = [
+		isEditing ? 'editing' : 'editable'
+	];
+
+	let content = isEditing ? 
+		<React.Fragment>
+			<input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
+			<input name="venue" type="text" value={venue} onChange={e => setVenue(e.target.value)} />
+			<input name="start" type="date" value={start} onChange={e => setStart(e.target.value)} />
+			<input name="end" type="date" value={end} onChange={e => setEnd(e.target.value)} />
+		</React.Fragment>
+	:
+		<React.Fragment>
+			<span className="bold">{name},</span>
+			<span>{venue},</span>
+			<span className="bold">
+				{moment(start).format('dddd Do')}&nbsp;
+				{moment(start).isSame(end, 'month') ? '' : moment(start).format('MMMM') + ' '}
+				{moment(start).isSame(end, 'year') ? '' : moment(start).format('YYYY') + ' '}
+				to {moment(end).format('dddd Do MMMM YYYY')}
+			</span>
+		</React.Fragment>
+
+	async function handleSubmit() {
+		await setIsLoading(true)
+
+		await fetch(`${window.api_host}/v1/contract/${props.id}/event`, {
+			crossDomain: true,
+			method: 'PATCH',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body : JSON.stringify({ 
+				'name' : name,
+				'venue' : venue,
+				'start' : start,
+				'end' : end	
+			})
+		})
+		.then(response => { 
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error(response.statusText);
+			}
+		})
+		.then(data => setIsLoading(false))
+		.catch(error => setError(error))
+		.finally(() => setIsEditing(false))
+	}
+
+	async function handleClose() {
+		setName(props.event.name);
+		setVenue(props.event.venue);
+		setStart(props.event.start);
+		setEnd(props.event.end);
+		setIsEditing(false);
+	}
+
 	return (
-		<section id="event">
+		<section id="event" className={classes.join(' ')} onClick={() => isEditing || setIsEditing(true)}>
 			<div className="index">
 				<BlockNumber number="1" />
 			</div>
 			<div className="content">
 				<h2 className="title">Event <span className="subtitle">- Name, venue &amp; dates</span></h2>
 				<div className="body">
-					<p className="filled">
-						<strong className="highlight">{props.event.name},</strong>
-						<span>{props.event.venue},</span>
-						<strong>
-							{moment(props.event.start).format('dddd Do')}&nbsp;
-							{moment(props.event.start).isSame(props.event.end, 'month') ? '' : moment(props.event.start).format('MMMM') + ' '}
-							{moment(props.event.start).isSame(props.event.end, 'year') ? '' : moment(props.event.start).format('YYYY') + ' '}
-							to {moment(props.event.end).format('dddd Do MMMM YYYY')}
-						</strong>
-					</p>
+					<p className="filled">{content}</p>
 				</div>
 			</div>
+			{isLoading && <SectionLoader />}
+			{isEditing && <SectionEditMenu close={handleClose} save={handleSubmit} />}
 		</section>
 	)
 }
+
+export const SectionEditMenu = props => <div className="menu">
+	<button className="save" onClick={props.save}><img src="/assets/images/save.svg" alt="Save" /></button>
+	<button className="cancel" onClick={() => props.close(false)}><img src="/assets/images/cancel.svg" alt="Cancel" /></button>
+</div>
+
+export const SectionLoader = props => <div className="section-loader"><img src="/assets/images/load.svg" alt="Loading..." /></div>
 
 export const SectionHotel = props => {
 	return (

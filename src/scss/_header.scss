@@ -8,11 +8,9 @@ header {
 		&__logo {
 			display: flex;
 			align-items: center;
-
-			img {
-				display: block;
-				width: 200px;
-			}
+			color: $light;
+			font-size: 1.5rem;
+			font-weight: 800;
 		}
 
 		&__slogan {
@@ -46,7 +44,7 @@ header {
 			}
 
 			&__line2 {
-				@include font(heading, light);
+				@include font(heading, normal);
 			}
 		}
 

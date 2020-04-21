@@ -1,6 +1,10 @@
 section {
 	display: flex;
-	margin-bottom: 3rem;
+	position: relative;
+	margin-bottom: 2rem;
+	padding: 1rem;
+	border-radius: 5px;
+	border: 3px solid transparent;
 	text-align: justify;
 	box-decoration-break: clone;
 	
@@ -18,6 +22,20 @@ section {
 		color: $text-dark;
 	}
 
+	input[type=text],
+	input[type=date] {
+		@include font(body, normal);
+
+		width: 100%;
+		min-width: 0;
+		max-width: max-content;
+		border: 0; 
+		font-size: inherit;
+		background-color: $lightest; 
+		border-radius: 5px;
+		padding: 5px 10px;
+	}
+
 	.index {
 		flex: 0 0 40px;
 		margin-right: 1rem;
@@ -27,11 +45,13 @@ section {
 
 			display: inline-block;
 			padding: 0.25rem 0.7rem; 
-			background-color: $text;
+			width: 100%; 
+			background-color: $secondary;
 			border-radius: 100%;
 			font-size: 2rem; 
 			line-height: 2rem; 
 			color: $lightest;
+			text-align: center;
 		}
 	}
 
@@ -48,7 +68,7 @@ section {
 			}
 	
 			.subtitle {
-				@include font(heading, light);
+				@include font(heading, normal);
 			}
 		}
 	
@@ -101,11 +121,11 @@ section {
 			}
 		}
 
-		strong {
+		.bold {
 			@include font(body, bold);
 		}
 
-		em {
+		.italic {
 			@include font(body, italic);
 		}
 
@@ -129,12 +149,16 @@ section {
 
 			& > * {
 				margin-right: 5px;
+
+				&:last-of-type { 
+					margin-right: 0; 
+				}
 			}
 		}
 	}
 
 	table {
-		@include font(heading, light);
+		@include font(heading, normal);
 		width: 100%;
 		padding: 0; 
 		margin-top: 1rem;
@@ -161,7 +185,7 @@ section {
 			}
 
 			.description {
-				@include font(heading, light);
+				@include font(heading, normal);
 				text-align: right;
 				text-transform: uppercase;
 
@@ -234,7 +258,7 @@ section {
 	}
 
 	.prompt {
-		@include font(heading, light);
+		@include font(heading, normal);
 		padding: 1rem;
 		font-size: 0.7rem;
 		text-align: left;
@@ -266,7 +290,7 @@ section {
 			}
 
 			.date {
-				@include font(heading, light);
+				@include font(heading, normal);
 				position: absolute;
 				top: 5px;
 				right: 10px;
@@ -319,9 +343,69 @@ section {
 		}
 
 		.locked-input {
-			@include font(heading, light);
+			@include font(heading, normal);
 			// color: $highlight;
 		}
 
+	}
+
+	&.editable { 
+		cursor: pointer;
+
+		&, * {
+			transition: all ease-in-out .2s;
+		}
+
+		&:hover {
+			border-color: $primary;
+			box-shadow: transparentize($darkest, 0.8) 0 0 20px;
+
+			.block-number {
+				background-color: $primary;
+			}
+		}
+	}
+
+	&.editing {
+		border-color: $primary;
+		background-color: transparentize($primary, 0.8);
+
+		.filled {
+			display: flex; 
+		}
+
+		.menu {
+			position: absolute;
+			right: 15px;
+			top: -25px;
+
+			button {
+				width: 50px;
+				height: 50px;
+				border: 0;
+				border-radius: 100%;
+				background-color: $primary;
+				color: $lightest;
+				cursor: pointer;
+				transition: all ease-in-out .2s;
+
+				&:hover {
+					background-color: darken($primary, 10);
+				}
+			}
+
+			.cancel {
+				margin-left: 10px;
+				background-color: $secondary;
+
+				&:hover {
+					background-color: darken($secondary, 10);
+				}
+			}
+		}
+
+		.block-number {
+			background-color: $primary;
+		}
 	}
 }

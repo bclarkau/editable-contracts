@@ -19,66 +19,56 @@ $secondary : #4f5d75;
 $fonts: (
 	body: (
 		normal: (
-			font-family: ("Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
+			font-family: ("Lora", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
 			font-weight: 400,
 			font-style: normal
 		),
 		bold: (
-			font-family: ("Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
+			font-family: ("Lora", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
 			font-weight: 700,
 			font-style: normal
 		),
 		upper: (
-			font-family: ("Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
+			font-family: ("Lora", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
 			font-weight: 400,
 			font-style: normal,
 			text-transform: uppercase
 		),
 		upper-bold: (
-			font-family: ("Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
+			font-family: ("Lora", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
 			font-weight: 700,
 			font-style: normal,
 			text-transform: uppercase
-		),
-		italic: (
-			font-family: ("Roboto", Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif),
-			font-weight: 400,
-			font-style: italic,
 		)
 	),
 	heading: (
-		light: (
-			font-family: ("Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
-			font-weight: 100,
+		normal: (
+			font-family: ("Work Sans", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
+			font-weight: 300,
 			font-style: normal
 		),
 		black: (
-			font-family: ("Roboto", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
-			font-weight: 900,
+			font-family: ("Work Sans", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
+			font-weight: 700,
 			font-style: normal
 		)
 	),
 	button: (
 		medium: (
-			font-family: ("Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif),
-			font-weight: 500,
+			font-family: ("Work Sans", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
+			font-weight: 300,
 			font-style: normal
 		),
 		black: (
-			font-family: ("Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif),
-			font-weight: 900,
+			font-family: ("Work Sans", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
+			font-weight: 700,
 			font-style: normal
 		)
 	),
 	footer: (
-		normal-italic: (
-			font-family: ("Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif),
-			font-weight: 400,
-			font-style: italic
-		),
-		light-italic: (
-			font-family: ("Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif),
-			font-weight: 100,
+		italic: (
+			font-family: ("Work Sans", Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif),
+			font-weight: 300,
 			font-style: italic
 		)
 	),
