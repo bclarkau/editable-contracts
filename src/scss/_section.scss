@@ -1,7 +1,7 @@
 section {
 	display: flex;
 	position: relative;
-	margin-bottom: 2rem;
+	margin-bottom: 1.5rem;
 	padding: 1rem;
 	border-radius: 5px;
 	border: 3px solid transparent;
@@ -23,7 +23,8 @@ section {
 	}
 
 	input[type=text],
-	input[type=date] {
+	input[type=date],
+	textarea {
 		@include font(body, normal);
 
 		width: 100%;
@@ -34,6 +35,11 @@ section {
 		background-color: $lightest; 
 		border-radius: 5px;
 		padding: 5px 10px;
+	}
+
+	textarea {
+		max-width: 100%; 
+		
 	}
 
 	.index {

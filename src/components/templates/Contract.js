@@ -4,6 +4,7 @@ import moment from 'moment';
 // Components 
 import SectionEvent from '../modules/SectionEvent';
 import SectionHotel from '../modules/SectionHotel';
+import SectionRequest from '../modules/SectionRequest';
 import FullPageLoader from '../modules/FullPageLoader';
 import { Header, Footer } from './Layout';
 import { BlockNumber } from '../modules/Section';
@@ -72,6 +73,7 @@ const ContractTemplate = props => {
 					<article className="container">
 						<SectionEvent event={contract.event} id={ref} />
 						<SectionHotel hotel={contract.hotel} id={ref} />
+						<SectionRequest request={contract.request} id={ref} />
 						<Footer />
 					</article>
 				</main>
