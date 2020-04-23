@@ -12,10 +12,6 @@ const SectionEvent = props => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
 
-	let classes = [
-		isEditing ? 'editing' : 'editable'
-	];
-
 	let content = isEditing ? 
 		<React.Fragment>
 			<input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
@@ -61,7 +57,7 @@ const SectionEvent = props => {
 	}
 
 	return (
-		<section id="event" className={classes.join(' ')} onClick={() => isEditing || setIsEditing(true)}>
+		<section id="event" className={isEditing ? 'editing' : 'editable'} onClick={() => isEditing || setIsEditing(true)}>
 			<div className="index">
 				<BlockNumber number="1" />
 			</div>

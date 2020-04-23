@@ -5,12 +5,8 @@ import { store } from '../store';
 const SectionRequest = props => {
 	const [request, setRequest] = useState(props.request);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isEditing, setIsEditing] = useState(true);
+	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
-
-	let classes = [
-		isEditing ? 'editing' : 'editable'
-	];
 
 	let content = isEditing ? 
 		<p><textarea name="request" rows="10" value={request} onChange={e => setRequest(e.target.value)}></textarea></p>
@@ -35,7 +31,7 @@ const SectionRequest = props => {
 	}
 
 	return (
-		<section id="request" className={classes.join(' ')} onClick={() => isEditing || setIsEditing(true)}>
+		<section id="request" className={isEditing ? 'editing' : 'editable'} onClick={() => isEditing || setIsEditing(true)}>
 			<div className="index">
 				<BlockNumber number="3" />
 			</div>
