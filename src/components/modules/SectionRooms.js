@@ -1,0 +1,187 @@
+import React, { useState, useReducer } from "react";
+import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
+import { store } from '../store';
+import moment from 'moment';
+
+// update single values inside state depending on fields changed
+const allocationReducer = (state, action) => {
+	let newState = { ...state }; 
+
+	switch (action.type) {
+		// update start and (calculated) end date
+		case 'date':
+			newState.start = moment(action.date).format('YYYY-MM-DD');
+			newState.end = moment(action.date).add(action.total, 'days').format('YYYY-MM-DD');
+			return newState;
+		// update room name
+		case 'room':
+			newState.rooms[action.key].name = action.name;
+			return newState;
+		// update room rate
+		case 'rate':
+			newState.rooms[action.key].rate = action.rate;
+			return newState;
+		// update block number for a specific room/night
+		case 'block':
+			newState.rooms[action.key].number[action.index] = action.number;
+			return newState;
+		// reset to initial state 
+		case 'reset':
+			return action.initialState; 
+		default:
+			console.error('Reducer error: Unknown key');
+			return newState;
+	}
+};
+
+/**
+ * Create an array of moment date objects based on start/end dates
+ * @param {String} start The start date
+ * @param {String} end The end date
+ */
+function getDateRange(start, end) {
+	var nights = [];
+	var startDate = moment(start);
+	var endDate = moment(end);
+	while(startDate <= endDate) {
+		nights.push( moment(startDate) );
+		startDate = moment(startDate).add(1, 'days');
+	}
+	return nights;
+}
+
+/**
+ * The rooms section shows an editable table of allocation details. 
+ * 
+ * @property {String} currency The hotel currency
+ * @property {object} allocation Contains the start/end date of the event and the room name/rate/block details
+ * @property {String} id The contract reference ID
+ */
+export const SectionRooms = props => {
+	const [state, dispatch] = useReducer(allocationReducer, props.allocation);
+	const [currency, setCurrency] = useState(props.currency);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isEditing, setIsEditing] = useState(true);
+	const [error, setError] = useState(null);
+
+	// create the markup for the nights columns
+	let nights = getDateRange(state.start, state.end);
+	let nightHeaderColumns = nights.map((night, i) => <td key={i}>
+		<AllocationDate date={night} index={i} isEditing={isEditing} callback={e => dispatch({ type: 'date', total: nights.length-1, date: e.target.value })} />
+	</td>);
+
+	/**
+	 * On submit, set state and save to database
+	 */
+	function handleSubmit() {
+		setIsLoading(true)
+		
+		// save updated data to database
+		store(props.id, {
+			'allocation' : state
+		})
+		.then(data => setIsLoading(false))
+		.catch(error => setError(error))
+		.finally(() => setIsEditing(false))
+	}
+
+	/**
+	 * On close, reset the state
+	 */
+	function handleClose() {
+		dispatch({ type: 'reset', initialState: props.allocation });
+		setIsEditing(false);
+	}
+
+	return (
+		<section id="rooms" className={isEditing ? 'editing' : 'editable'} onClick={() => isEditing || setIsEditing(true)}>
+			<div className="index">
+				<BlockNumber number="4" />
+			</div>
+			<div className="content">
+				<h2 className="title">Booking <span className="subtitle">- Rooms &amp; rates per night</span></h2>
+				<div className="body">
+					<table className="small">
+						<thead>
+							<tr>
+								<td>Room type</td>
+								<td>Rate</td>
+								{nightHeaderColumns}
+							</tr>
+						</thead>
+						<tbody>
+							{state.rooms.map((room, i) => <tr key={i}>
+								<td><RoomName name={room.name} isEditing={isEditing} callback={e => dispatch({ type: 'room', key: i, name: e.target.value })} /></td>
+								<td>
+									<RoomRate rate={room.rate} isEditing={isEditing} callback={e => dispatch({ type: 'rate', key: i, rate: e.target.value })} />
+									<RoomCurrency currency={currency} isEditing={isEditing} callback={e => setCurrency(e.target.value)} />
+								</td>
+								{room.number.map((num, j) => <td key={j}>
+									<RoomBlock number={num} isEditing={isEditing} callback={e => dispatch({ type: 'block', key: i, index: j, number: e.target.value })} />
+								</td>)}
+							</tr>)}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{isLoading && <SectionLoader />}
+			{isEditing && <SectionEditMenu close={handleClose} save={handleSubmit} />}
+		</section>
+	)
+}
+export default SectionRooms;
+
+/**
+ * Output a room name field
+ * @property {String} name The room name
+ * @property {Boolean} isEditing Whether the section is currently in edit mode
+ * @property {function} callback The callback used to update room name state
+ */
+export const RoomName = props => (
+	props.isEditing ? <input name="name" type="text" value={props.name} onChange={props.callback} /> : <span>{props.name}</span>
+)
+
+/**
+ * Output a room rate field
+ * @property {number} rate The room rate
+ * @property {Boolean} isEditing Whether the section is currently in edit mode
+ * @property {function} callback The callback used to update room rate state
+ */
+export const RoomRate = props => (
+	props.isEditing ? <input name="rate" type="number" value={props.rate} onChange={props.callback} /> : <span>{props.rate}</span>
+)
+
+/**
+ * Output a room currency field
+ * @property {String} currency The room currency
+ * @property {Boolean} isEditing Whether the section is currently in edit mode
+ * @property {function} callback The callback used to update room currency state
+ */
+export const RoomCurrency = props => (
+	props.isEditing ? <input name="currency" type="text" value={props.currency} onChange={props.callback} /> : <span>&nbsp;{props.currency}</span>
+)
+
+/**
+ * Output a room block field
+ * @property {number} number The number of rooms in the block
+ * @property {Boolean} isEditing Whether the section is currently in edit mode
+ * @property {function} callback The callback used to update room rate state
+ */
+export const RoomBlock = props => (
+	props.isEditing ? <input name="block" type="number" value={props.number} onChange={props.callback} /> : <span>{props.number}</span>
+)
+
+/**
+ * Output an allocation date field
+ * @property {number} index The column index of the date
+ * @property {Boolean} isEditing Whether the section is currently in edit mode
+ * @property {function} callback The callback used to update allocation date state
+ */
+export const AllocationDate = props => {
+	// only show an input field for the first column
+	// other columns dynamically populated
+	if(props.isEditing && props.index === 0) {
+		return <input name="date" type="date" value={props.date.format('YYYY-MM-DD')} onChange={props.callback} />
+	}
+	return <span>{props.date.format('D MMM')}</span>;
+}
