@@ -25,7 +25,7 @@ export const Header = props => {
 export const Footer = props => {
 	return (
 		<footer>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. At nemo nihil fugit quisquam magnam consectetur sapiente 
+			&sup1; rate per room, per night. Lorem ipsum dolor sit amet, consectetur adipisicing elit. At nemo nihil fugit quisquam magnam consectetur sapiente 
 			deserunt accusantium veniam eaque ad ullam fuga, reprehenderit animi sit similique repellendus. Possimus, similique.
 		</footer>
 	)

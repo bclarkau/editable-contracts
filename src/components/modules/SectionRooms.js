@@ -17,6 +17,10 @@ const allocationReducer = (state, action) => {
 		case 'room':
 			newState.rooms[action.key].name = action.name;
 			return newState;
+		// add room to list
+		case 'addRoom':
+			newState.rooms.push({name: '', rate: 0, number: Array.from({length: action.nights}, () => 0)});
+			return newState;
 		// remove room from list
 		case 'removeRoom':
 			newState.rooms = state.rooms.filter((value, index) => index != action.index);
@@ -49,7 +53,7 @@ export const SectionRooms = props => {
 	const [state, dispatch] = useReducer(allocationReducer, props.allocation);
 	const [currency, setCurrency] = useState(props.currency);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isEditing, setIsEditing] = useState(true);
+	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
 	const [activeRow, setActiveRow] = useState(-1);
 
@@ -94,7 +98,7 @@ export const SectionRooms = props => {
 						<thead>
 							<tr>
 								<td className="name">Room type</td>
-								<td className="rate">Rate</td>
+								<td className="rate">Rate &sup1;</td>
 								{nightHeaderColumns}
 							</tr>
 						</thead>
@@ -110,10 +114,19 @@ export const SectionRooms = props => {
 										<RoomBlock number={num} isEditing={isEditing} callback={e => dispatch({ type: 'block', key: i, index: j, number: e.target.value })} />
 									</td>)}
 									{isEditing && <td><button className="remove" onMouseOut={() => setActiveRow(-1)} onMouseOver={() => setActiveRow(i)} onClick={() => dispatch({ type: 'removeRoom', index: i })}>
-										<img className="" src="/assets/images/remove.svg" alt="Remove room" />
+										<img src="/assets/images/remove.svg" alt="Remove room" />
 									</button></td>}
 								</tr>
 							))}
+							{isEditing ? 
+								<tr>
+									<td colSpan={state.rooms.length + 3}>
+										<button className="add" onClick={() => dispatch({ type: 'addRoom', nights: nights.length })}>
+											<img src="/assets/images/add.svg" alt="Add room" />
+										</button>
+									</td>
+								</tr>
+							: false}
 						</tbody>
 					</table>
 				</div>
@@ -142,7 +155,7 @@ export const RoomName = props => (
  * @property {function} callback The callback used to update room rate state
  */
 export const RoomRate = props => (
-	props.isEditing ? <input required name="rate" type="number" value={props.rate} onChange={props.callback} /> : <span>{props.rate}</span>
+	props.isEditing ? <input required name="rate" type="number" min="0" value={props.rate} onChange={props.callback} /> : <span>{props.rate}</span>
 )
 
 /**
@@ -162,7 +175,7 @@ export const RoomCurrency = props => (
  * @property {function} callback The callback used to update room rate state
  */
 export const RoomBlock = props => (
-	props.isEditing ? <input required name="block" type="number" value={props.number} onChange={props.callback} /> : <span>{props.number}</span>
+	props.isEditing ? <input required name="block" type="number" min="0" value={props.number} onChange={props.callback} /> : <span>{props.number}</span>
 )
 
 /**

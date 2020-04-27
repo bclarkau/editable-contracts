@@ -368,7 +368,8 @@ section {
 			}
 		}
 
-		.remove {
+		.remove,
+		.add {
 			position: absolute;
 			top: 10px;
 			right: -50px;
@@ -376,7 +377,6 @@ section {
 			justify-content: center;
 			align-items: center;
 			padding: 0;
-			background-color: $error;
 			color: $lightest;
 			border-radius: 100%;
 			border: 0;
@@ -385,9 +385,19 @@ section {
 			text-align: center;
 			cursor: pointer;
 			transition: all ease-in-out .2s;
+		}
 
+		.remove {		
+			background-color: $error;
 			&:hover {
 				background-color: darken($error, 10);
+			}
+		}
+
+		.add {		
+			background-color: $success;
+			&:hover {
+				background-color: darken($success, 10);
 			}
 		}
 
