@@ -36,11 +36,11 @@ section {
 		background-color: $lightest; 
 		border-radius: 5px;
 		padding: 5px 10px;
+		transition: all ease-in-out 0.2s;
 	}
 
 	textarea {
 		max-width: 100%; 
-		
 	}
 
 	.index {
@@ -171,15 +171,16 @@ section {
 		margin-top: 1rem;
 		border-spacing: 0;
 		text-align: left;
-		text-transform: uppercase;
 
-		&.small {
-			td { 
-				padding: 0.5rem; 
-			}
+		tr {
+			position: relative;
 		}
 
-		// all columns except the first two are center aligned
+		td { 
+			padding: 0.5rem 2px; 
+		}
+
+		// all columns except the first two are left aligned
 		tr td:nth-of-type(n+3) {
 			text-align: right;
 		}
@@ -187,80 +188,24 @@ section {
 		thead {
 			td {
 				@include font(heading, black);
-				border-top: 2px solid $text-dark;
-				border-bottom: 2px solid $text-dark; 
-			}
-
-			.description {
-				@include font(heading, normal);
-				text-align: right;
+				border-bottom: 2px solid $darkest; 
+				color: $darkest;
 				text-transform: uppercase;
+			}
 
+			.name {
+				min-width: 100px;
 			}
 		}
-
-		tbody {
-			td {
-				padding-bottom: 0;
-			}
-			
-			tr.border {
-				&.highlight-row td {
-					// border-bottom: 2px solid $pullout;
-					border-bottom: 2px solid $primary;
-				}
-
-				td {
-					border-bottom: 1px solid $darker;
-					padding-bottom: 0.5rem;
-				}
-			}
-
-			tr:not(.border) + tr.border td {
-				// padding-top: 0;
-			}
-
-			.checkbox {
-				position: relative;
-				top: 3px;
-				display: inline-block;
-				margin-right: 5px;
-				width: 15px;
-			}
-
-			.button { 
-				@include font(button, black);
-				display: inline-block;
-				padding: 5px 12px;
-				// background: $pullout;
-				background: $primary;
-				color: $lightest;
-				letter-spacing: 2px;
-				font-size: 0.7rem;
-
-				&.secondary {
-					// background: $highlight;
-				}
-			}
+		
+		input[type=text],
+		input[type=number] {
+			@include font(heading, normal);
 		}
-
-		.description {
-			text-transform: initial;
-		}
-
-		.room {
-			&, &__info, &__icon {
-				display: flex;
-				align-items: center;
-			}
-
-			&__info {
-				margin-right: 8px; 
-			}
-
-			&__icon {
-				margin-right: 5px;
-			}
+		
+		input[type=date] {
+			@include font(heading, black);
+			color: $darkest;
 		}
 	}
 
@@ -381,6 +326,18 @@ section {
 			display: flex; 
 		}
 
+		table tbody td.rate {
+			display: flex;
+
+			input:first-of-type {
+				margin-right: 4px;
+			}
+		}
+
+		table tbody tr.active input {
+			background-color: transparentize($error, 0.7);
+		}
+
 		.menu {
 			position: absolute;
 			right: 15px;
@@ -408,6 +365,29 @@ section {
 				&:hover {
 					background-color: darken($secondary, 10);
 				}
+			}
+		}
+
+		.remove {
+			position: absolute;
+			top: 10px;
+			right: -50px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 0;
+			background-color: $error;
+			color: $lightest;
+			border-radius: 100%;
+			border: 0;
+			width: 20px;
+			height: 20px;
+			text-align: center;
+			cursor: pointer;
+			transition: all ease-in-out .2s;
+
+			&:hover {
+				background-color: darken($error, 10);
 			}
 		}
 

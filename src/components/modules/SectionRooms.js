@@ -5,9 +5,9 @@ import moment from 'moment';
 
 // update single values inside state depending on fields changed
 const allocationReducer = (state, action) => {
-	let newState = { ...state }; 
+	let newState = JSON.parse(JSON.stringify(state)); 
 
-	switch (action.type) {
+	switch(action.type) {
 		// update start and (calculated) end date
 		case 'date':
 			newState.start = moment(action.date).format('YYYY-MM-DD');
@@ -16,6 +16,10 @@ const allocationReducer = (state, action) => {
 		// update room name
 		case 'room':
 			newState.rooms[action.key].name = action.name;
+			return newState;
+		// remove room from list
+		case 'removeRoom':
+			newState.rooms = state.rooms.filter((value, index) => index != action.index);
 			return newState;
 		// update room rate
 		case 'rate':
@@ -30,25 +34,9 @@ const allocationReducer = (state, action) => {
 			return action.initialState; 
 		default:
 			console.error('Reducer error: Unknown key');
-			return newState;
+			return state;
 	}
 };
-
-/**
- * Create an array of moment date objects based on start/end dates
- * @param {String} start The start date
- * @param {String} end The end date
- */
-function getDateRange(start, end) {
-	var nights = [];
-	var startDate = moment(start);
-	var endDate = moment(end);
-	while(startDate <= endDate) {
-		nights.push( moment(startDate) );
-		startDate = moment(startDate).add(1, 'days');
-	}
-	return nights;
-}
 
 /**
  * The rooms section shows an editable table of allocation details. 
@@ -63,10 +51,11 @@ export const SectionRooms = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(true);
 	const [error, setError] = useState(null);
+	const [activeRow, setActiveRow] = useState(-1);
 
 	// create the markup for the nights columns
 	let nights = getDateRange(state.start, state.end);
-	let nightHeaderColumns = nights.map((night, i) => <td key={i}>
+	let nightHeaderColumns = nights.map((night, i) => <td className="date" key={i}>
 		<AllocationDate date={night} index={i} isEditing={isEditing} callback={e => dispatch({ type: 'date', total: nights.length-1, date: e.target.value })} />
 	</td>);
 
@@ -101,25 +90,30 @@ export const SectionRooms = props => {
 			<div className="content">
 				<h2 className="title">Booking <span className="subtitle">- Rooms &amp; rates per night</span></h2>
 				<div className="body">
-					<table className="small">
+					<table>
 						<thead>
 							<tr>
-								<td>Room type</td>
-								<td>Rate</td>
+								<td className="name">Room type</td>
+								<td className="rate">Rate</td>
 								{nightHeaderColumns}
 							</tr>
 						</thead>
 						<tbody>
-							{state.rooms.map((room, i) => <tr key={i}>
-								<td><RoomName name={room.name} isEditing={isEditing} callback={e => dispatch({ type: 'room', key: i, name: e.target.value })} /></td>
-								<td>
-									<RoomRate rate={room.rate} isEditing={isEditing} callback={e => dispatch({ type: 'rate', key: i, rate: e.target.value })} />
-									<RoomCurrency currency={currency} isEditing={isEditing} callback={e => setCurrency(e.target.value)} />
-								</td>
-								{room.number.map((num, j) => <td key={j}>
-									<RoomBlock number={num} isEditing={isEditing} callback={e => dispatch({ type: 'block', key: i, index: j, number: e.target.value })} />
-								</td>)}
-							</tr>)}
+							{state.rooms && state.rooms.map((room, i) => (
+								<tr className={activeRow === i ? 'active' : ''} key={i}>
+									<td className="name"><RoomName name={room.name} isEditing={isEditing} callback={e => dispatch({ type: 'room', key: i, name: e.target.value })} /></td>
+									<td className="rate">
+										<RoomRate rate={room.rate} isEditing={isEditing} callback={e => dispatch({ type: 'rate', key: i, rate: e.target.value })} />
+										<RoomCurrency currency={currency} isEditing={isEditing} callback={e => setCurrency(e.target.value)} />
+									</td>
+									{room.number.map((num, j) => <td className="block" key={j}>
+										<RoomBlock number={num} isEditing={isEditing} callback={e => dispatch({ type: 'block', key: i, index: j, number: e.target.value })} />
+									</td>)}
+									{isEditing && <td><button className="remove" onMouseOut={() => setActiveRow(-1)} onMouseOver={() => setActiveRow(i)} onClick={() => dispatch({ type: 'removeRoom', index: i })}>
+										<img className="" src="/assets/images/remove.svg" alt="Remove room" />
+									</button></td>}
+								</tr>
+							))}
 						</tbody>
 					</table>
 				</div>
@@ -138,7 +132,7 @@ export default SectionRooms;
  * @property {function} callback The callback used to update room name state
  */
 export const RoomName = props => (
-	props.isEditing ? <input name="name" type="text" value={props.name} onChange={props.callback} /> : <span>{props.name}</span>
+	props.isEditing ? <input required name="name" type="text" value={props.name} onChange={props.callback} /> : <span>{props.name}</span>
 )
 
 /**
@@ -148,7 +142,7 @@ export const RoomName = props => (
  * @property {function} callback The callback used to update room rate state
  */
 export const RoomRate = props => (
-	props.isEditing ? <input name="rate" type="number" value={props.rate} onChange={props.callback} /> : <span>{props.rate}</span>
+	props.isEditing ? <input required name="rate" type="number" value={props.rate} onChange={props.callback} /> : <span>{props.rate}</span>
 )
 
 /**
@@ -158,7 +152,7 @@ export const RoomRate = props => (
  * @property {function} callback The callback used to update room currency state
  */
 export const RoomCurrency = props => (
-	props.isEditing ? <input name="currency" type="text" value={props.currency} onChange={props.callback} /> : <span>&nbsp;{props.currency}</span>
+	props.isEditing ? <input required name="currency" type="text" value={props.currency} onChange={props.callback} /> : <span>&nbsp;{props.currency}</span>
 )
 
 /**
@@ -168,7 +162,7 @@ export const RoomCurrency = props => (
  * @property {function} callback The callback used to update room rate state
  */
 export const RoomBlock = props => (
-	props.isEditing ? <input name="block" type="number" value={props.number} onChange={props.callback} /> : <span>{props.number}</span>
+	props.isEditing ? <input required name="block" type="number" value={props.number} onChange={props.callback} /> : <span>{props.number}</span>
 )
 
 /**
@@ -181,7 +175,23 @@ export const AllocationDate = props => {
 	// only show an input field for the first column
 	// other columns dynamically populated
 	if(props.isEditing && props.index === 0) {
-		return <input name="date" type="date" value={props.date.format('YYYY-MM-DD')} onChange={props.callback} />
+		return <input required name="date" type="date" value={props.date.format('YYYY-MM-DD')} onChange={props.callback} />
 	}
 	return <span>{props.date.format('D MMM')}</span>;
+}
+
+/**
+ * Create an array of moment date objects based on start/end dates
+ * @param {String} start The start date
+ * @param {String} end The end date
+ */
+function getDateRange(start, end) {
+	var nights = [];
+	var startDate = moment(start);
+	var endDate = moment(end);
+	while(startDate <= endDate) {
+		nights.push( moment(startDate) );
+		startDate = moment(startDate).add(1, 'days');
+	}
+	return nights;
 }
