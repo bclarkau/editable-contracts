@@ -214,6 +214,7 @@ section {
 		padding: 1rem;
 		font-size: 0.7rem;
 		text-align: left;
+		background-color: transparentize($warning, 0.8);
 		
 		@media print {
 			page-break-inside: avoid;

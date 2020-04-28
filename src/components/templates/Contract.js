@@ -6,6 +6,7 @@ import SectionEvent from '../modules/SectionEvent';
 import SectionHotel from '../modules/SectionHotel';
 import SectionRequest from '../modules/SectionRequest';
 import SectionRooms from '../modules/SectionRooms';
+import { SectionClientSignature } from '../modules/SectionSignature';
 import FullPageLoader from '../modules/FullPageLoader';
 import { Header, Footer } from './Layout';
 import { BlockNumber } from '../modules/Section';
@@ -76,6 +77,7 @@ const ContractTemplate = props => {
 						<SectionHotel hotel={contract.hotel} id={ref} />
 						<SectionRequest request={contract.request} id={ref} />
 						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} />
+						<SectionClientSignature contact={contract.contact} date={contract.signed_on} signature={signature} setSignature={setSignature} id={ref} />
 						<Footer />
 					</article>
 				</main>

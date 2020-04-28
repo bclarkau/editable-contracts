@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import moment from 'moment';
-import { BlockNumber, SectionEditMenu, SectionLoader } from '../modules/Section';
+import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 
 const SectionEvent = props => {
