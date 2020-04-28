@@ -4,7 +4,7 @@
  * @param {Object} 		data 		The data to save to the database
  */
 export async function store(id, data) {
-	console.info(`Saving contract #${id}:`, data);
+	// console.info(`Saving contract #${id}:`, data);
 
 	return new Promise((resolve, reject) => {
 		fetch(`${window.api_host}/v1/contract/${id}`, {
@@ -18,11 +18,12 @@ export async function store(id, data) {
 		})
 		.then(response => { 
 			if (response.ok) {
-				resolve();
+				return response.json();
 			} else {
 				throw new Error(response.statusText);
 			}
 		})
+		.then(contract => resolve(contract.data))
 		.catch(error => {
 			console.error(error);
 			reject();

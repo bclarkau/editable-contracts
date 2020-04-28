@@ -7,6 +7,7 @@ const SectionRequest = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
+	const [heldState, setHeldState] = useState(false);
 
 	let content = isEditing ? 
 		<p><textarea name="request" rows="10" value={request} onChange={e => setRequest(e.target.value)}></textarea></p>
@@ -14,19 +15,22 @@ const SectionRequest = props => {
 		<p className="preserve-breaks">{request}</p>
 
 	function handleSubmit() {
-		setIsLoading(true)
+		setIsLoading(true);
 		
 		// save updated data to database
 		store(props.id, {
 			'request' : request
 		})
-		.then(data => setIsLoading(false))
+		.then(data => setHeldState(data))
 		.catch(error => setError(error))
-		.finally(() => setIsEditing(false))
+		.finally(() => {
+			setIsLoading(false);
+			setIsEditing(false);
+		})
 	}
 
 	function handleClose() {
-		setRequest(props.request);
+		setRequest(heldState ? heldState.request : props.request);
 		setIsEditing(false);
 	}
 

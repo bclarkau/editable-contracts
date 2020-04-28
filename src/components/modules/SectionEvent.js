@@ -11,6 +11,7 @@ const SectionEvent = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
+	const [heldState, setHeldState] = useState(false);
 
 	let content = isEditing ? 
 		<React.Fragment>
@@ -43,16 +44,19 @@ const SectionEvent = props => {
 				'end' : end	
 			}
 		})
-		.then(data => setIsLoading(false))
+		.then(data => setHeldState(data))
 		.catch(error => setError(error))
-		.finally(() => setIsEditing(false))
+		.finally(() => {
+			setIsLoading(false);
+			setIsEditing(false);
+		})
 	}
 
 	function handleClose() {
-		setName(props.event.name);
-		setVenue(props.event.venue);
-		setStart(props.event.start);
-		setEnd(props.event.end);
+		setName(heldState ? heldState.event.name : props.event.name);
+		setVenue(heldState ? heldState.event.venue : props.event.venue);
+		setStart(heldState ? heldState.event.start : props.event.start);
+		setEnd(heldState ? heldState.event.end : props.event.end);
 		setIsEditing(false);
 	}
 

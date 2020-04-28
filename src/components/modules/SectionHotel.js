@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { BlockNumber, SectionEditMenu, SectionLoader } from '../modules/Section';
+import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
+import { store } from '../store';
 
 const SectionHotel = props => {
 	const [name, setName] = useState(props.hotel.name);
@@ -10,6 +11,7 @@ const SectionHotel = props => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState(null);
+	const [heldState, setHeldState] = useState(false);
 
 	let content = isEditing ? 
 		<React.Fragment>
@@ -43,17 +45,20 @@ const SectionHotel = props => {
 				'country' : country
 			}
 		})
-		.then(data => setIsLoading(false))
+		.then(data => setHeldState(data))
 		.catch(error => setError(error))
-		.finally(() => setIsEditing(false))
+		.finally(() => {
+			setIsLoading(false);
+			setIsEditing(false);
+		})
 	}
 
 	function handleClose() {
-		setName(props.hotel.name);
-		setAddress(props.hotel.address);
-		setCity(props.hotel.city);
-		setState(props.hotel.state);
-		setCountry(props.hotel.country);
+		setName(heldState ? heldState.hotel.name : props.hotel.name);
+		setAddress(heldState ? heldState.hotel.address : props.hotel.address);
+		setCity(heldState ? heldState.hotel.city : props.hotel.city);
+		setState(heldState ? heldState.hotel.state : props.hotel.state);
+		setCountry(heldState ? heldState.hotel.country : props.hotel.country);
 		setIsEditing(false);
 	}
 
