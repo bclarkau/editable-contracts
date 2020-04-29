@@ -53,9 +53,6 @@ const ContractTemplate = props => {
 		.finally(() => setIsLoading(false))
 	}, []);
 
-	let isPart1Ready = !!signature;
-	let isPart2Ready = !!bookingURL;
-
 	// let submitButton = !isLocked ? <SectionSubmit ready={isPart1Ready} label="Submit signed contract" setDialogOpen={setDialogOpen} /> : false;
 	let submitNotice = isLocked && contract.status !== 'approved' ? <Notice text={"Thanks for submitting. " + contract.author.firstName + " will review this contract shortly."} /> : false;
 
@@ -64,7 +61,11 @@ const ContractTemplate = props => {
 		if ( contract.free_title && contract.free_textbox) {
 			additional_notes = <SectionFreeText free_title={contract.free_title} free_textbox={contract.free_textbox}/>
 		}
-	}	
+	}
+
+	function handleSubmit() {
+		return;
+	}
 
 	return !isLoading && contract ? (
 		<div id="editable-contracts">
@@ -78,6 +79,9 @@ const ContractTemplate = props => {
 						<SectionRequest request={contract.request} id={ref} />
 						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} />
 						<SectionClientSignature contact={contract.contact} date={contract.signed_on} signature={signature} setSignature={setSignature} id={ref} />
+						<div id="submit">
+							<button className="submit-button" disabled={!signature} onClick={handleSubmit}>Submit signed contract</button>
+						</div>
 						<Footer />
 					</article>
 				</main>

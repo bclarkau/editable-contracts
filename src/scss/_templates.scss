@@ -26,26 +26,35 @@ html, body {
 		padding: 3rem 0 2rem;
 	}
 
-	.prompt {
-		// background-color: $prompt;
+	#submit {
+		text-align: center; 
 
-		&.signature {
-			cursor: crosshair;
+		button {
+			@include font(heading, black);
+			margin: 0 auto;
+			border: 3px solid transparent;
+			border-radius: 5px;
+			background-color: $primary;
+			padding: 0.8rem 2rem;
+			color: $lightest;
+			text-transform: uppercase;
+			font-size: 1rem;
+			transition: all ease-in-out 0.2s;
+			cursor: pointer;
+
+			&:hover {
+				border-color: darken($primary, 20);
+				background-color: darken($primary, 10);
+				box-shadow: transparentize($darkest, 0.8) 0 0 10px;
+			}
+
+			&[disabled] {
+				border-color: transparent;
+				background-color: $lighter;
+				box-shadow: none;
+				cursor: not-allowed;
+			}
 		}
-	}
-
-	.part1.locked .prompt,
-	.part2.locked .prompt,
-	&.master-agreement .locked .prompt {
-		background-color: $mid;
-
-		&.signature {
-			cursor: auto;
-		}
-	}
-
-	#submit-part {
-		justify-content: center;
 	}
 
 	.notice {

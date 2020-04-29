@@ -25,8 +25,10 @@ export const Header = props => {
 export const Footer = props => {
 	return (
 		<footer>
-			&sup1; rate per room, per night. Lorem ipsum dolor sit amet, consectetur adipisicing elit. At nemo nihil fugit quisquam magnam consectetur sapiente 
-			deserunt accusantium veniam eaque ad ullam fuga, reprehenderit animi sit similique repellendus. Possimus, similique.
+			&sup1; rate per room, per night. Lorem ipsum dolor sit amet, consectetur adipisicing elit. At nemo nihil fugit 
+			quisquam magnam consectetur sapiente deserunt accusantium veniam eaque ad ullam fuga, reprehenderit animi sit 
+			similique repellendus. Possimus, similique. Ut explicabo repellendus vel nemo veritatis est, voluptatum pariatur 
+			ullam quod voluptate. Natus, ab molestias qui rem adipisci labore sunt eius iste. Developed by Ben Clark <a href="https://benclark.dev">https://benclark.dev</a>
 		</footer>
 	)
 }

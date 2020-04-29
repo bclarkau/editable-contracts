@@ -36,7 +36,7 @@ section {
 		background-color: $lightest; 
 		border-radius: 5px;
 		padding: 5px 10px;
-		transition: all ease-in-out 0.2s;
+		transition: all .2s;
 	}
 
 	textarea {
@@ -67,7 +67,7 @@ section {
 
 		.title {
 			@include font(heading, black);
-			margin: 0;
+			margin: 0 0 10px 0;
 			text-transform: uppercase;
 			
 			&.inline {
@@ -79,53 +79,21 @@ section {
 			}
 		}
 	
-		.body {
-			&.inline .title,
-			&.inline > p {
-				display: inline;
+		.body.columns {
+			display: flex; 
+
+			& > * {
+				width: 50%;
 			}
 
-			&.inline .title {
-				padding-right: 10px;
-				margin-right: 10px;
-				border-right: 2px solid $text-dark;
+			.filled {
+				margin-right: 1rem; 
 			}
-
-			&.inline > p {
-				margin: 0 2rem 0 0;
-			}
-
-			&.inline > p,
-			&.inline > p * {
-				font-size: 0.9rem;
-			}
-
-			&.columns {
-				display: flex; 
-
-				& > * {
-					width: 50%;
-				}
-
-				.filled {
-					align-self: end;
-					margin-right: 1rem; 
-				}
-			}
-		}
-
-		.body + .body {
-			margin-top: 1rem; 
 		}
 
 		p {
 			margin: 0;
 			padding: 0.3rem 0 0.2rem;
-
-			&.pullout,
-			.pullout { 
-				// color: $pullout;
-			}
 		}
 
 		.bold {
@@ -136,16 +104,11 @@ section {
 			@include font(body, italic);
 		}
 
-		.highlight {
-			// color: $highlight;
-		}
-
-		.pullout {
-			// color: $pullout;
-		}
-
 		.filled {
-			border-bottom: 1px solid $darker;
+			padding: 0.5rem 1rem;
+			border-radius: 5px;
+			background-color: transparentize($secondary, 0.9);
+			// border-bottom: 1px solid $darker;
 			// color: $pullout;
 			font-size: 1rem;
 			text-align: left;
@@ -188,7 +151,7 @@ section {
 		thead {
 			td {
 				@include font(heading, black);
-				border-bottom: 2px solid $darkest; 
+				border-bottom: 2px solid transparentize($secondary, 0.6); 
 				color: $darkest;
 				text-transform: uppercase;
 			}
@@ -215,6 +178,14 @@ section {
 		font-size: 0.7rem;
 		text-align: left;
 		background-color: transparentize($warning, 0.8);
+		border: 3px solid transparent;
+		border-radius: 5px;
+		transition: all .2s;
+
+		&:hover {
+			border-color: transparentize($warning, 0.7);
+			box-shadow: transparentize($darkest, 0.9) 0 0 10px;
+		}
 		
 		@media print {
 			page-break-inside: avoid;
@@ -224,6 +195,7 @@ section {
 		&.signature {
 			position: relative;
 			height: 100px;
+			cursor: crosshair;
 
 			@media print {
 				border: 2px solid $text-dark;
@@ -277,36 +249,13 @@ section {
 			width: 365px;
 			height: 100px;
 		}
-		
-		.user-input {
-			display: flex;
-			align-items: center;
-
-			@media print {
-				margin-top: 0.5rem;
-			}
-
-			label {
-				margin-right: 10px; 
-			}
-
-			input {
-				flex-grow: 1;
-			}
-		}
-
-		.locked-input {
-			@include font(heading, normal);
-			// color: $highlight;
-		}
-
 	}
 
 	&.editable { 
 		cursor: pointer;
 
 		&, * {
-			transition: all ease-in-out .2s;
+			transition: border-color .2s, background-color .2s, box-shadow .2s;
 		}
 
 		&:hover {
@@ -322,9 +271,12 @@ section {
 	&.editing {
 		border-color: $primary;
 		background-color: transparentize($primary, 0.8);
+		box-shadow: transparentize($darkest, 0.8) 0 0 20px;
 
 		.filled {
 			display: flex; 
+			background-color: transparent;
+			padding: 0;
 		}
 
 		table tbody td.rate {
@@ -352,7 +304,7 @@ section {
 				background-color: $primary;
 				color: $lightest;
 				cursor: pointer;
-				transition: all ease-in-out .2s;
+				transition: all .2s;
 
 				&:hover {
 					background-color: darken($primary, 10);
@@ -385,7 +337,7 @@ section {
 			height: 20px;
 			text-align: center;
 			cursor: pointer;
-			transition: all ease-in-out .2s;
+			transition: all .2s;
 		}
 
 		.remove {		

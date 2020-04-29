@@ -34,7 +34,7 @@ export const SectionClientSignature = props => {
 				onEnd={(e) => props.setSignature(canvas.toDataURL())}
 				ref={(ref) => setCanvas(ref)} />
 				<span className="action">
-					<button onClick={handleClear}>X</button>
+					<button onClick={handleClear}><img src="/assets/images/delete.svg" alt="X" /></button>
 				</span>
 		</React.Fragment>
 	;
@@ -48,9 +48,9 @@ export const SectionClientSignature = props => {
 				<h2 className="title">Client signature <span className="subtitle">- Name, title &amp; email</span></h2>
 				<div className="body columns">
 					<p className="filled">
-						<span className="bold">{name},</span>
-						<span>{title},</span>
-						<span className="italic">{email}</span>
+						<div className="bold">{name}</div>
+						<div>{title}</div>
+						<div className="italic">{email}</div>
 					</p>
 					<p className="signature prompt">
 						<span className="label">Sign here</span>
