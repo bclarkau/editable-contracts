@@ -34,9 +34,13 @@ const SectionRequest = props => {
 		setIsEditing(false);
 	}
 
+	let classes = [
+		isEditing && 'editing',
+		props.isLocked ? 'locked' : 'editable'
+	]
+
 	return (
-		<section id="request" className={isEditing ? 'editing' : 'editable'} onClick={() => isEditing || setIsEditing(true)}>
-			<div className="index">
+		<section id="request" className={classes.join(' ')} onClick={() => !props.isLocked && (isEditing || setIsEditing(true))}>			<div className="index">
 				<BlockNumber number="3" />
 			</div>
 			<div className="content">

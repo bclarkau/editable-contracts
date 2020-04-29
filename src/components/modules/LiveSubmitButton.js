@@ -1,26 +1,45 @@
-import React from "react";
-import styled from 'styled-components';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
+import React, { useState } from "react";
+import moment from 'moment';
+import { store } from '../store';
 
 const LiveSubmitButton = props => {
-	const SubmitWrapper = styled.div`
-		position: relative;
-		margin-left: 1rem; 
-	`;
+	const [status, setStatus] = useState(false);
 
-	const Spinner = styled(CircularProgress)`
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin-top: ${props => props.size ? '-' + props.size/2 + 'px' : 0};
-		margin-left: ${props => props.size ? '-' + props.size/2 + 'px' : 0};
-	`;
+	// const SubmitWrapper = styled.div`
+	// 	position: relative;
+	// 	margin-left: 1rem; 
+	// `;
 
-	return <SubmitWrapper>
-		<Button type="submit" aria-label="Submit" variant="contained" color={props.color} disabled={props.isLoading}>{props.label}</Button>
-		{props.isLoading ? <Spinner color={props.color} size={24} /> : false}
-	</SubmitWrapper>
+	// const Spinner = styled(CircularProgress)`
+	// 	position: absolute;
+	// 	top: 50%;
+	// 	left: 50%;
+	// 	margin-top: ${props => props.size ? '-' + props.size/2 + 'px' : 0};
+	// 	margin-left: ${props => props.size ? '-' + props.size/2 + 'px' : 0};
+	// `;
+
+	function handleSubmit() {		
+		setStatus('sending');
+		
+		// save updated data to database
+		store(props.id, {
+			'status' : 'signed',
+			'signature' : btoa(props.signature),
+			'signed_on' : moment().format('YYYY-MM-DD HH:mm:ss')
+		})
+		// .then(data => setTimeout(resolve, delay, value))
+		.catch(error => setError(error))
+		.finally(() => setStatus('sent'))
+	}
+
+	let classes = [
+		'submit-button',
+		props.status
+	];
+
+	return <div className={classes.join(' ')}>
+		<button type="submit" aria-label="Submit" disabled={props.disabled} onClick={handleSubmit}>{props.children}</button>
+		{props.status === 'sending' ? <img src="/assets/images/loading.svg" alt="..." /> : false}
+	</div>
 }
 export default LiveSubmitButton;

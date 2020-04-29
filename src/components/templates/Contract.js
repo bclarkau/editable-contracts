@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import moment from 'moment';
 
 // Components 
 import SectionEvent from '../modules/SectionEvent';
@@ -8,24 +7,20 @@ import SectionRequest from '../modules/SectionRequest';
 import SectionRooms from '../modules/SectionRooms';
 import { SectionClientSignature } from '../modules/SectionSignature';
 import FullPageLoader from '../modules/FullPageLoader';
+import LiveSubmitButton from '../modules/LiveSubmitButton';
 import { Header, Footer } from './Layout';
-import { BlockNumber } from '../modules/Section';
 
 const ContractTemplate = props => {	
 	const ref = props.match.params.ref;
 
 	// Data state
-	const [auth, setAuth] = useState(true);
 	const [contract, setContract] = useState(null);
 	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	
 	// UI state
-	const [bookingURL, setBookingURL] = useState('');
 	const [signature, setSignature] = useState('');
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [isLocked, setIsLocked] = useState(false);
-	const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
 
 	/** Fetch the contract from database by reference ID and add to component state */
 	useEffect(() => {
@@ -47,14 +42,21 @@ const ContractTemplate = props => {
 		})
 		.then(data => {
 			setContract(data);
-			if(data.signature) { setSignature(data.signature) }
+			if(data.signature) { 
+				setSignature(atob(data.signature)) 
+			}
 		})
 		.catch(error => setError(error))
 		.finally(() => setIsLoading(false))
 	}, []);
 
-	// let submitButton = !isLocked ? <SectionSubmit ready={isPart1Ready} label="Submit signed contract" setDialogOpen={setDialogOpen} /> : false;
-	let submitNotice = isLocked && contract.status !== 'approved' ? <Notice text={"Thanks for submitting. " + contract.author.firstName + " will review this contract shortly."} /> : false;
+	let isLocked = contract && contract.status === 'signed';
+
+
+	let submitButton = !isLocked ? <div id="submit">
+		<LiveSubmitButton className="submit-button" signature={signature} disabled={!signature} id={ref}>Submit signed contract</LiveSubmitButton>
+	</div> : false;
+	let submitNotice = isLocked && contract.status !== 'approved' ? <div className="notice">Thanks for submitting. {contract.author.name} will review this contract shortly.</div> : false;
 
 	let additional_notes;
 	if ( contract ){
@@ -63,25 +65,20 @@ const ContractTemplate = props => {
 		}
 	}
 
-	function handleSubmit() {
-		return;
-	}
-
 	return !isLoading && contract ? (
-		<div id="editable-contracts">
+		<div id="editable-contracts" className={contract.status}>
 			<div id="wrapper">
 				<Header event={contract.event.mcode} hotel={contract.hotel.id} />
 
 				<main>
 					<article className="container">
-						<SectionEvent event={contract.event} id={ref} />
-						<SectionHotel hotel={contract.hotel} id={ref} />
-						<SectionRequest request={contract.request} id={ref} />
-						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} />
-						<SectionClientSignature contact={contract.contact} date={contract.signed_on} signature={signature} setSignature={setSignature} id={ref} />
-						<div id="submit">
-							<button className="submit-button" disabled={!signature} onClick={handleSubmit}>Submit signed contract</button>
-						</div>
+						<SectionEvent event={contract.event} id={ref} isLocked={isLocked} />
+						<SectionHotel hotel={contract.hotel} id={ref} isLocked={isLocked} />
+						<SectionRequest request={contract.request} id={ref} isLocked={isLocked} />
+						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} isLocked={isLocked} />
+						<SectionClientSignature contact={contract.contact} date={contract.signed_on} isLocked={isLocked} signature={signature} setSignature={setSignature} id={ref} />
+						{submitButton}
+						{submitNotice}
 						<Footer />
 					</article>
 				</main>

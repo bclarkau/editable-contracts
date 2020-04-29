@@ -26,6 +26,18 @@ html, body {
 		padding: 3rem 0 2rem;
 	}
 
+	&.signed {
+		.prompt {
+			background-color: transparentize($secondary, 0.8);
+
+			&:hover {
+				border-color: transparent;
+				box-shadow: none;
+				cursor: auto;
+			}
+		}
+	}
+
 	#submit {
 		text-align: center; 
 

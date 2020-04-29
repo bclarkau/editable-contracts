@@ -2,25 +2,14 @@ import React, { useState } from "react";
 import moment from 'moment';
 import SignatureCanvas from 'react-signature-canvas';
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
-import { store } from '../store';
 
 export const SectionClientSignature = props => {
-	const [name, setName] = useState(props.contact.name);
-	const [title, setTitle] = useState(props.contact.title);
-	const [email, setEmail] = useState(props.contact.email);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [heldState, setHeldState] = useState(false);
 	const [canvas, setCanvas] = useState({});
-
-	let date = props.date ? props.date : Date.now();
 
 	function handleClear() {
 		canvas.clear();
 		props.setSignature('');
 	}
-
-	let dateSigned = props.isLocked ? <span className="date">Signed on {moment(date).format('DD MMM YYYY')}</span> : false;
 
 	let signatureBlock = props.isLocked ? 
 		<img src={props.signature} />
@@ -39,6 +28,12 @@ export const SectionClientSignature = props => {
 		</React.Fragment>
 	;
 
+	let classes = [
+		'signature',
+		'prompt',
+		props.isLocked && 'locked'
+	];
+
 	return (
 		<section id="client-signature">
 			<div className="index">
@@ -47,16 +42,16 @@ export const SectionClientSignature = props => {
 			<div className="content">
 				<h2 className="title">Client signature <span className="subtitle">- Name, title &amp; email</span></h2>
 				<div className="body columns">
-					<p className="filled">
-						<div className="bold">{name}</div>
-						<div>{title}</div>
-						<div className="italic">{email}</div>
-					</p>
-					<p className="signature prompt">
-						<span className="label">Sign here</span>
-						{dateSigned}
+					<div className="filled">
+						<div className="bold">{props.contact.name}</div>
+						<div>{props.contact.title}</div>
+						<div className="italic">{props.contact.email}</div>
+					</div>
+					<div className={classes.join(' ')}>
+						{!props.isLocked ? <span className="label">Sign here</span> : false}
 						{signatureBlock}
-					</p>
+						{props.isLocked && props.date ? <span className="date">Signed on {moment(props.date).format('DD MMM YYYY')}</span> : false}
+					</div>
 				</div>
 			</div>
 		</section>
