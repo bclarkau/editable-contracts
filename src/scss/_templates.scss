@@ -29,6 +29,10 @@ html, body {
 	#submit {
 		text-align: center; 
 
+		@media print {
+			display: none;
+		}
+
 		button {
 			@include font(heading, black);
 			position: relative;
