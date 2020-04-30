@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect, BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // templates 
+import HomeTemplate from './templates/Home';
 import ContractTemplate from './templates/Contract';
 
 // modules 
@@ -103,6 +104,7 @@ const Routes = (props) => {
 			{ !isLoading ? 
 				<Switch>
 					{/* Public routes */}
+					<Route exact name="Home" path={'/'} component={HomeTemplate} />
 					<Route exact name="Contract" path={'/contract/:ref'} component={ContractTemplate} />
 
 					{/* Render these components separately so that they don't count towards the appSteps */}

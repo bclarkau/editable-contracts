@@ -22,8 +22,6 @@ const ContractTemplate = props => {
 	const [signature, setSignature] = useState('');
 	const [isLocked, setIsLocked] = useState(false);
 
-	console.log('contract locked', isLocked);
-
 	/** Fetch the contract from database by reference ID and add to component state */
 	useEffect(() => {
 		fetch(`${window.api_host}/v1/contract/${ref}`, {
@@ -56,7 +54,7 @@ const ContractTemplate = props => {
 	return !isLoading && contract ? (
 		<div id="editable-contracts" className={contract.status}>
 			<div id="wrapper">
-				<Header event={contract.event.mcode} hotel={contract.hotel.id} />
+				<Header event={contract.event.code} hotel={contract.hotel.id} />
 				<main>
 					<article className="container">
 						<SectionEvent event={contract.event} id={ref} isLocked={isLocked} />

@@ -1,6 +1,16 @@
 import React from "react";
 
 export const Header = props => {
+	let title = props.event ? <div className="title">
+		<h1 className="name">
+			<span className="name__line1">Hotel</span>
+			<span className="name__line2">Contract #{props.event}</span>
+		</h1>
+		<div className="qrcode">
+			<div className="qrcode__image"><img src={`https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8080/contract/9141226e-0bf9-443c-a9f9-b058ffe3ba8c`} /></div>
+		</div>
+	</div> : false;
+
 	return (
 		<header>
 			<div className="container">
@@ -8,15 +18,7 @@ export const Header = props => {
 					<div className="brand__logo">benclark.dev</div>
 					<div className="brand__slogan">Editable contracts demo</div>
 				</div>
-				<div className="title">
-					<h1 className="name">
-						<span className="name__line1">Hotel</span>
-						<span className="name__line2">Contract</span>
-					</h1>
-					<div className="qrcode">
-						<div className="qrcode__image"><img src={`https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8080/contract/9141226e-0bf9-443c-a9f9-b058ffe3ba8c`} /></div>
-					</div>
-				</div>
+				{title}
 			</div>
 		</header>
 	)
