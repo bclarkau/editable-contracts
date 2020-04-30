@@ -5,7 +5,7 @@ import SectionEvent from '../modules/SectionEvent';
 import SectionHotel from '../modules/SectionHotel';
 import SectionRequest from '../modules/SectionRequest';
 import SectionRooms from '../modules/SectionRooms';
-import { SectionClientSignature } from '../modules/SectionSignature';
+import { SectionCompanySignature, SectionClientSignature } from '../modules/SectionSignature';
 import FullPageLoader from '../modules/FullPageLoader';
 import LiveSubmitButton from '../modules/LiveSubmitButton';
 import { Header, Footer } from './Layout';
@@ -76,6 +76,7 @@ const ContractTemplate = props => {
 						<SectionHotel hotel={contract.hotel} id={ref} isLocked={isLocked} />
 						<SectionRequest request={contract.request} id={ref} isLocked={isLocked} />
 						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} isLocked={isLocked} />
+						<SectionCompanySignature author={contract.author} date={contract.approved_on} isLocked={true} />
 						<SectionClientSignature contact={contract.contact} date={contract.signed_on} isLocked={isLocked} signature={signature} setSignature={setSignature} id={ref} />
 						{submitButton}
 						{submitNotice}

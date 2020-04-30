@@ -3,6 +3,29 @@ import moment from 'moment';
 import SignatureCanvas from 'react-signature-canvas';
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 
+export const SectionCompanySignature = props => {
+	return (
+		<section id="company-signature">
+			<div className="index">
+				<BlockNumber number="5" />
+			</div>
+			<div className="content">
+				<h2 className="title">Company signature <span className="subtitle">- Name &amp; title</span></h2>
+				<div className="body columns">
+					<div className="filled">
+						<div className="bold">{props.author.name}</div>
+						<div>{props.author.role}</div>
+					</div>
+					<div className='signature prompt locked'>
+						<img src={atob(props.author.signature)} />
+						{props.isLocked && props.date ? <span className="date">Approved on {moment(props.date).format('DD MMM YYYY')}</span> : false}
+					</div>
+				</div>
+			</div>
+		</section>
+	)
+}
+
 export const SectionClientSignature = props => {
 	const [canvas, setCanvas] = useState({});
 
