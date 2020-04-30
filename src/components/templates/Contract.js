@@ -20,7 +20,9 @@ const ContractTemplate = props => {
 	
 	// UI state
 	const [signature, setSignature] = useState('');
-	const [dialogOpen, setDialogOpen] = useState(false);
+	const [isLocked, setIsLocked] = useState(false);
+
+	console.log('contract locked', isLocked);
 
 	/** Fetch the contract from database by reference ID and add to component state */
 	useEffect(() => {
@@ -42,34 +44,19 @@ const ContractTemplate = props => {
 		})
 		.then(data => {
 			setContract(data);
+			setIsLocked(data.status === 'signed');
 			if(data.signature) { 
 				setSignature(atob(data.signature)) 
 			}
 		})
 		.catch(error => setError(error))
 		.finally(() => setIsLoading(false))
-	}, []);
-
-	let isLocked = contract && contract.status === 'signed';
-
-
-	let submitButton = !isLocked ? <div id="submit">
-		<LiveSubmitButton className="submit-button" signature={signature} disabled={!signature} id={ref}>Submit signed contract</LiveSubmitButton>
-	</div> : false;
-	let submitNotice = isLocked && contract.status !== 'approved' ? <div className="notice">Thanks for submitting. {contract.author.name} will review this contract shortly.</div> : false;
-
-	let additional_notes;
-	if ( contract ){
-		if ( contract.free_title && contract.free_textbox) {
-			additional_notes = <SectionFreeText free_title={contract.free_title} free_textbox={contract.free_textbox}/>
-		}
-	}
+	}, [isLocked]);
 
 	return !isLoading && contract ? (
 		<div id="editable-contracts" className={contract.status}>
 			<div id="wrapper">
 				<Header event={contract.event.mcode} hotel={contract.hotel.id} />
-
 				<main>
 					<article className="container">
 						<SectionEvent event={contract.event} id={ref} isLocked={isLocked} />
@@ -78,8 +65,15 @@ const ContractTemplate = props => {
 						<SectionRooms currency={contract.hotel.currency} allocation={contract.allocation} id={ref} isLocked={isLocked} />
 						<SectionCompanySignature author={contract.author} date={contract.approved_on} isLocked={true} />
 						<SectionClientSignature contact={contract.contact} date={contract.signed_on} isLocked={isLocked} signature={signature} setSignature={setSignature} id={ref} />
-						{submitButton}
-						{submitNotice}
+						<div id="submit">
+							<LiveSubmitButton className="submit-button" 
+								signature={signature}
+								disabled={!signature && contract.status !== 'signed'} 
+								isLocked={isLocked}
+								setIsLocked={setIsLocked}
+								postLabel={`Thanks! ${contract.author.name} will review this contract shortly.`} 
+								id={ref}>Submit signed contract</LiveSubmitButton>
+						</div>
 						<Footer />
 					</article>
 				</main>
