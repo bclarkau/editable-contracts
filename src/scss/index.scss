@@ -19,6 +19,17 @@ body {
 	font-family: 'Work Sans', sans-serif;
 }
 
+.full-loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 @media print {
 	@page {
 		margin: 2cm 1cm; // margin for each printed piece of paper

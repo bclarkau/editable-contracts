@@ -10,7 +10,13 @@ import FullPageLoader from '../modules/FullPageLoader';
 import LiveSubmitButton from '../modules/LiveSubmitButton';
 import { Header, Footer } from './Layout';
 
+/**
+ * Master template. Acts as wrapper for contract sections and handles data retrieval. 
+ * 
+ * @param {*} props 
+ */
 const ContractTemplate = props => {	
+	// get reference ID for current contract. Used for endpoint calls. 
 	const ref = props.match.params.ref;
 
 	// Data state
@@ -30,8 +36,7 @@ const ContractTemplate = props => {
 			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json'
-			},
-			// body : JSON.stringify({ 'ref' : ref })
+			}
 		})
 		.then(response => { 
 			if (response.ok) {
@@ -41,8 +46,13 @@ const ContractTemplate = props => {
 			}
 		})
 		.then(data => {
+			// set contract to state
 			setContract(data);
+
+			// determine contract locked status
 			setIsLocked(data.status === 'signed');
+
+			// decode signature before setting to state
 			if(data.signature) { 
 				setSignature(atob(data.signature)) 
 			}
@@ -54,7 +64,7 @@ const ContractTemplate = props => {
 	return !isLoading && contract ? (
 		<div id="editable-contracts" className={contract.status}>
 			<div id="wrapper">
-				<Header event={contract.event.code} hotel={contract.hotel.id} />
+				<Header event={contract.event.id} link={window.location.href} />
 				<main>
 					<article className="container">
 						<SectionEvent event={contract.event} id={ref} isLocked={isLocked} />

@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 
+/**
+ * Hotel details section. Renders an editable field for all displayed data.
+ * 
+ * @property {object} hotel The hotel object 
+ * @property {String} id The unique reference ID of the current contract
+ * @property {boolean} isLocked The lock status of the editable fields
+ */
 const SectionHotel = props => {
 	const [name, setName] = useState(props.hotel.name);
 	const [address, setAddress] = useState(props.hotel.address);
@@ -13,6 +20,7 @@ const SectionHotel = props => {
 	const [error, setError] = useState(null);
 	const [heldState, setHeldState] = useState(false);
 
+	// section content depending on isEditing status
 	let content = isEditing ? 
 		<React.Fragment>
 			<input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
@@ -32,6 +40,7 @@ const SectionHotel = props => {
 			</span>
 		</React.Fragment>
 
+	// on submit, set loading state and store data 
 	function handleSubmit() {
 		setIsLoading(true)
 
@@ -53,6 +62,7 @@ const SectionHotel = props => {
 		})
 	}
 
+	// on edit close, reset any changes made
 	function handleClose() {
 		setName(heldState ? heldState.hotel.name : props.hotel.name);
 		setAddress(heldState ? heldState.hotel.address : props.hotel.address);
@@ -62,6 +72,7 @@ const SectionHotel = props => {
 		setIsEditing(false);
 	}
 
+	// conditional classes to be applied to the section wrapper 
 	let classes = [
 		isEditing && 'editing',
 		props.isLocked ? 'locked' : 'editable'

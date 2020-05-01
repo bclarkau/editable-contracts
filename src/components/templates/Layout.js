@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * Header includes contract title and QR code
+ * @property {Object} event The event object
+ * @property {String} link The URL to the current contract
+ */
 export const Header = props => {
 	let title = props.event ? <div className="title">
 		<h1 className="name">
@@ -7,7 +12,7 @@ export const Header = props => {
 			<span className="name__line2">Contract #{props.event}</span>
 		</h1>
 		<div className="qrcode">
-			<div className="qrcode__image"><img src={`https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:8080/contract/9141226e-0bf9-443c-a9f9-b058ffe3ba8c`} /></div>
+			<div className="qrcode__image"><img src={`https://api.qrserver.com/v1/create-qr-code/?data=${props.link}`} /></div>
 		</div>
 	</div> : false;
 
@@ -24,6 +29,9 @@ export const Header = props => {
 	)
 }
 
+/**
+ * Footer
+ */
 export const Footer = props => {
 	return (
 		<footer>

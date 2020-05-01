@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import moment from 'moment';
 import SignatureCanvas from 'react-signature-canvas';
-import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
+import { BlockNumber } from './Section';
 
+/**
+ * Company signature section. Renders the contract author name and their signature.
+ * 
+ * @property {object} author The author object 
+ * @property {String} date The date the contract was approved by the author 
+ * @property {boolean} isLocked The lock status of the editable fields
+ */
 export const SectionCompanySignature = props => {
 	return (
 		<section id="company-signature">
@@ -14,7 +21,7 @@ export const SectionCompanySignature = props => {
 				<div className="body columns">
 					<div className="filled">
 						<div className="bold">{props.author.name}</div>
-						<div>{props.author.role}</div>
+						<div>{props.author.title}</div>
 					</div>
 					<div className='signature prompt locked'>
 						<img src={atob(props.author.signature)} />
@@ -26,14 +33,26 @@ export const SectionCompanySignature = props => {
 	)
 }
 
+/**
+ * Client signature section. Renders the contact's details and a signature field.
+ * 
+ * @property {object} contact The contact object 
+ * @property {String} date The date the contract was signed by the client 
+ * @property {boolean} isLocked The lock status of the editable fields
+ * @property {String} signature The clients signature as Data URI image 
+ * @property {function} setSignature Callback. Sets the signature state in the parent
+ * @property {String} id The unique reference ID of the current contract
+ */
 export const SectionClientSignature = props => {
 	const [canvas, setCanvas] = useState({});
 
+	// clear the canvas and signature state 
 	function handleClear() {
 		canvas.clear();
 		props.setSignature('');
 	}
 
+	// signature block content depending on isLocked status
 	let signatureBlock = props.isLocked ? 
 		<img src={props.signature} />
 	: 
@@ -51,6 +70,7 @@ export const SectionClientSignature = props => {
 		</React.Fragment>
 	;
 
+	// conditional classes to be applied to the signature block
 	let classes = [
 		'signature',
 		'prompt',

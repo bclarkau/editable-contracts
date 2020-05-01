@@ -3,6 +3,13 @@ import moment from 'moment';
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 
+/**
+ * Event details section. Renders an editable field for all displayed data.
+ * 
+ * @property {object} event The event object 
+ * @property {String} id The unique reference ID of the current contract
+ * @property {boolean} isLocked The lock status of the editable fields
+ */
 const SectionEvent = props => {
 	const [name, setName] = useState(props.event.name);
 	const [venue, setVenue] = useState(props.event.venue);
@@ -13,6 +20,7 @@ const SectionEvent = props => {
 	const [error, setError] = useState(null);
 	const [heldState, setHeldState] = useState(false);
 
+	// section content depending on isEditing status
 	let content = isEditing ? 
 		<React.Fragment>
 			<input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
@@ -32,6 +40,7 @@ const SectionEvent = props => {
 			</span>
 		</React.Fragment>
 
+	// on submit, set loading state and store data 
 	function handleSubmit() {
 		setIsLoading(true)
 
@@ -52,6 +61,7 @@ const SectionEvent = props => {
 		})
 	}
 
+	// on edit close, reset any changes made
 	function handleClose() {
 		setName(heldState ? heldState.event.name : props.event.name);
 		setVenue(heldState ? heldState.event.venue : props.event.venue);
@@ -60,6 +70,7 @@ const SectionEvent = props => {
 		setIsEditing(false);
 	}
 
+	// conditional classes to be applied to the section wrapper 
 	let classes = [
 		isEditing && 'editing',
 		props.isLocked ? 'locked' : 'editable'

@@ -8,67 +8,67 @@ import ContractTemplate from './templates/Contract';
 // modules 
 import FullPageLoader from './modules/FullPageLoader';
 
-/**
- * Wrapper around Route component that requires a user to be logged in to visit. 
- * If user is not logged in they are redirected to the home or login page
- */
-export const PrivateRoute = ({component: Component, ...rest}) => {
-	const [isLoggedIn, setIsLoggedIn] = useState(auth && auth.authenticated);
-	const [isLoading, setIsLoading] = useState(true);
+// /**
+//  * Wrapper around Route component that requires a user to be logged in to visit. 
+//  * If user is not logged in they are redirected to the home or login page
+//  */
+// export const PrivateRoute = ({component: Component, ...rest}) => {
+// 	const [isLoggedIn, setIsLoggedIn] = useState(auth && auth.authenticated);
+// 	const [isLoading, setIsLoading] = useState(true);
 
-	// route args merged together here to avoid reloading the page too often (can result in react error)
-	const [routeArgs, setRouteArgs] = useState({
-		allowed: false,
-		redirectPath: '/login', // default redirect path is to the login page
-	}); 
+// 	// route args merged together here to avoid reloading the page too often (can result in react error)
+// 	const [routeArgs, setRouteArgs] = useState({
+// 		allowed: false,
+// 		redirectPath: '/login', // default redirect path is to the login page
+// 	}); 
 
-	// on page load, initalise the route args
-	useEffect(() => {
-		init()
-		.then(data => setRouteArgs({
-			allowed: data.allowed,
-			redirectPath: data.redirectPath,
-		}))
-		.then(() => setIsLoading(false));
-	}, []);
+// 	// on page load, initalise the route args
+// 	useEffect(() => {
+// 		init()
+// 		.then(data => setRouteArgs({
+// 			allowed: data.allowed,
+// 			redirectPath: data.redirectPath,
+// 		}))
+// 		.then(() => setIsLoading(false));
+// 	}, []);
 
-	/**
-	 * Initalise the route arguments we need for determining how a private route will function
-	 */
-	async function init() {
-		let allowed = false;
-		let redirectPath = '/login';
+// 	/**
+// 	 * Initalise the route arguments we need for determining how a private route will function
+// 	 */
+// 	async function init() {
+// 		let allowed = false;
+// 		let redirectPath = '/login';
 	
-		// If trying to access the Home (base page) private route, only check for auth (contract ID is not set by this point)
-		if(rest.isBasePage) {
-			allowed = isLoggedIn;
-		} 
-		// otherwise for all other private routes, check for both auth and contract ID
-		else {
-			allowed = rest.noredirect || (isLoggedIn && contract);
+// 		// If trying to access the Home (base page) private route, only check for auth (contract ID is not set by this point)
+// 		if(rest.isBasePage) {
+// 			allowed = isLoggedIn;
+// 		} 
+// 		// otherwise for all other private routes, check for both auth and contract ID
+// 		else {
+// 			allowed = rest.noredirect || (isLoggedIn && contract);
 
-			// private routes should redirect to homepage if logged in but no contract ID 
-			if(isLoggedIn) {
-				redirectPath = '/';
-			}
-		}
+// 			// private routes should redirect to homepage if logged in but no contract ID 
+// 			if(isLoggedIn) {
+// 				redirectPath = '/';
+// 			}
+// 		}
 
-		return {
-			allowed: allowed,
-			redirectPath: redirectPath
-		};
-	}
+// 		return {
+// 			allowed: allowed,
+// 			redirectPath: redirectPath
+// 		};
+// 	}
 	
-	return !isLoading ? 
-		<Route
-			{...rest}
-			render={(props) => routeArgs.allowed
-				? <Component {...props} {...rest} />
-				: <Redirect to={{pathname: routeArgs.redirectPath, state: {from: props.location}}} />
-			}
-		/>
-	: false;
-}
+// 	return !isLoading ? 
+// 		<Route
+// 			{...rest}
+// 			render={(props) => routeArgs.allowed
+// 				? <Component {...props} {...rest} />
+// 				: <Redirect to={{pathname: routeArgs.redirectPath, state: {from: props.location}}} />
+// 			}
+// 		/>
+// 	: false;
+// }
 
 const Routes = (props) => {
 	// Component state values
@@ -81,6 +81,7 @@ const Routes = (props) => {
 	}, []);
 
 	// get authentication status and info of user
+	// NB: unused in demo 
 	async function isAuthenticated() {
 		await fetch(`${window.api_host}/v1/auth`, {
 			crossDomain: true,
@@ -94,7 +95,7 @@ const Routes = (props) => {
 				throw new Error(response.statusText);
 			}
 		})
-		.then(data => setAuth(data))
+		// .then(data => setAuth(data))
 		.catch(error => setError(error))
 		.finally(() => setIsLoading(false));
 	}

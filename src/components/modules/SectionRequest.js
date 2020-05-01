@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 
+/**
+ * Request section. Renders an editable block of text.
+ * 
+ * @property {String} request The request string 
+ * @property {String} id The unique reference ID of the current contract
+ * @property {boolean} isLocked The lock status of the editable fields
+ */
 const SectionRequest = props => {
 	const [request, setRequest] = useState(props.request);
 	const [isLoading, setIsLoading] = useState(false);
@@ -9,11 +16,13 @@ const SectionRequest = props => {
 	const [error, setError] = useState(null);
 	const [heldState, setHeldState] = useState(false);
 
+	// section content depending on isEditing status
 	let content = isEditing ? 
 		<p><textarea name="request" rows="10" value={request} onChange={e => setRequest(e.target.value)}></textarea></p>
 	:
 		<p className="preserve-breaks">{request}</p>
 
+	// on submit, set loading state and store data 
 	function handleSubmit() {
 		setIsLoading(true);
 		
@@ -29,11 +38,13 @@ const SectionRequest = props => {
 		})
 	}
 
+	// on edit close, reset any changes made
 	function handleClose() {
 		setRequest(heldState ? heldState.request : props.request);
 		setIsEditing(false);
 	}
 
+	// conditional classes to be applied to the section wrapper 
 	let classes = [
 		isEditing && 'editing',
 		props.isLocked ? 'locked' : 'editable'

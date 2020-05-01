@@ -47,7 +47,8 @@ const allocationReducer = (state, action) => {
  * 
  * @property {String} currency The hotel currency
  * @property {object} allocation Contains the start/end date of the event and the room name/rate/block details
- * @property {String} id The contract reference ID
+ * @property {String} id The unique reference ID of the current contract
+ * @property {boolean} isLocked The lock status of the editable fields
  */
 export const SectionRooms = props => {
 	const [state, dispatch] = useReducer(allocationReducer, props.allocation);
@@ -63,9 +64,7 @@ export const SectionRooms = props => {
 		<AllocationDate date={night} index={i} isEditing={isEditing} callback={e => dispatch({ type: 'date', total: nights.length-1, date: e.target.value })} />
 	</td>);
 
-	/**
-	 * On submit, set state and save to database
-	 */
+	// on submit, set state and save to database
 	function handleSubmit() {
 		setIsLoading(true)
 		
@@ -78,14 +77,13 @@ export const SectionRooms = props => {
 		.finally(() => setIsEditing(false))
 	}
 
-	/**
-	 * On close, reset the state
-	 */
+	// on edit close, reset any changes made
 	function handleClose() {
 		dispatch({ type: 'reset', initialState: props.allocation });
 		setIsEditing(false);
 	}
 
+	// conditional classes to be applied to the section wrapper 
 	let classes = [
 		isEditing && 'editing',
 		props.isLocked ? 'locked' : 'editable'
