@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Header } from './Layout';
 import moment from "moment";
+import { Header } from './Layout';
+import LiveSubmitButton from '../modules/LiveSubmitButton';
 
 // default contract data for demo 
 const defaultContract = {
@@ -57,27 +58,33 @@ const defaultContract = {
 
 const HomeTemplate = props => {	
 	const history = useHistory();
+	const [error, setError] = useState(null);
 
 	// add new contract with demo data
-	function handleNew() {
-		fetch(`${window.api_host}/v1/contracts`, {
-			crossDomain: true,
-			method: 'POST',
-			mode: 'cors',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body : JSON.stringify(defaultContract)
-		})
-		.then(response => { 
-			if (response.ok) {
-				return response.json();
-			} else {
-				throw new Error(response.statusText);
-			}
-		})
-		.then(res => history.push(`/contract/${res.data.ref}`)) // redirect to generated contract
-		.catch(error => setError(error))
+	async function handleNew() {
+		let newContract = await new Promise((resolve, reject) => {
+			fetch(`${window.api_host}/v1/contracts`, {
+				crossDomain: true,
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body : JSON.stringify(defaultContract)
+			})
+			.then(response => { 
+				if (response.ok) {
+					return response.json();
+				} else {
+					throw new Error(response.statusText);
+				}
+			})
+			.then(res => resolve(res)) 
+			.catch(error => reject(error))
+		});
+
+		// redirect to generated contract
+		history.push(`/contract/${newContract.data.ref}`);
 	}
 
 	return (
@@ -85,7 +92,10 @@ const HomeTemplate = props => {
 			<div id="wrapper">
 				<Header />
 				<main id="submit">
-					<button onClick={handleNew}>Generate new demo contract</button>
+					<LiveSubmitButton className="submit-button" 
+						disabled={false} 
+						isLocked={false}
+						handleClick={handleNew}>Generate new demo contract</LiveSubmitButton>
 				</main>
 			</div>
 		</div>

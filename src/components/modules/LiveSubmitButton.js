@@ -1,36 +1,30 @@
 import React, { useState } from "react";
-import moment from 'moment';
-import { store } from '../store';
 
 /**
  * Submit button that shows animated loading and completed states on click. 
  * 
- * @property {String} signature The clients signature as Data URI image 
  * @property {boolean} disabled The button disabled attribute
  * @property {boolean} isLocked The lock status of the editable fields
- * @property {function} setIsLocked Callback. Sets the locked state in the parent
- * @property {String} postLabel The button label to use after submit 
- * @property {String} id The unique reference ID of the current contract
+ * @property {String} postLabel Optional. The button label to use after submit.
  */
 const LiveSubmitButton = props => {
 	const [status, setStatus] = useState(props.isLocked ? 'sent' : 'active');
 
-	// on submit, set loading state and store data 
-	function handleSubmit() {		
+	// on submit, run the prop callback function 
+	async function handleSubmit() {
 		setStatus('sending');
 
-		// pause for a bit to show loader
-		setTimeout(() =>
-			// save updated data to database
-			store(props.id, {
-				'status' : 'signed',
-				'signature' : btoa(props.signature),
-				'signed_on' : moment().format('YYYY-MM-DD HH:mm:ss')
-			})
-			.then(() => props.setIsLocked(true))
-			.catch(error => setError(error))
-			.finally(() => setStatus('sent'))
-		, 1000);
+		// wait for click callback to complete
+		await new Promise((resolve, reject) => {
+			props.handleClick()
+				.then(res => resolve(res))
+				.catch(error => reject(error))
+		})
+
+		// if we have a post label (the callback isn't going to redirect), set the button status again
+		if(props.postLabel) {
+			setStatus('sent');
+		}
 	}
 
 	// change button label depending on contract status

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
+import { store } from '../store';
+import { Header, Footer } from './Layout';
 
 // Components 
 import SectionEvent from '../modules/SectionEvent';
@@ -8,7 +11,6 @@ import SectionRooms from '../modules/SectionRooms';
 import { SectionCompanySignature, SectionClientSignature } from '../modules/SectionSignature';
 import FullPageLoader from '../modules/FullPageLoader';
 import LiveSubmitButton from '../modules/LiveSubmitButton';
-import { Header, Footer } from './Layout';
 
 /**
  * Master template. Acts as wrapper for contract sections and handles data retrieval. 
@@ -61,6 +63,17 @@ const ContractTemplate = props => {
 		.finally(() => setIsLoading(false))
 	}, [isLocked]);
 
+	// on submit, save updated data to database
+	async function handleSubmit() {				
+		await store(ref, {
+			'status' : 'signed',
+			'signature' : btoa(signature),
+			'signed_on' : moment().format('YYYY-MM-DD HH:mm:ss')
+		})
+		.then(() => setIsLocked(true))
+		.catch(error => setError(error))
+	}
+
 	return !isLoading && contract ? (
 		<div id="editable-contracts" className={contract.status}>
 			<div id="wrapper">
@@ -75,12 +88,10 @@ const ContractTemplate = props => {
 						<SectionClientSignature contact={contract.contact} date={contract.signed_on} isLocked={isLocked} signature={signature} setSignature={setSignature} id={ref} />
 						<div id="submit">
 							<LiveSubmitButton className="submit-button" 
-								signature={signature}
 								disabled={!signature && contract.status !== 'signed'} 
 								isLocked={isLocked}
-								setIsLocked={setIsLocked}
 								postLabel={`Thanks! ${contract.author.name} will review this contract shortly.`} 
-								id={ref}>Submit signed contract</LiveSubmitButton>
+								handleClick={handleSubmit}>Submit signed contract</LiveSubmitButton>
 						</div>
 						<Footer />
 					</article>
