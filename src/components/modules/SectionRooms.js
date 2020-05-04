@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from "react";
+import DatePicker from 'react-datepicker';
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 import moment from 'moment';
@@ -61,7 +62,7 @@ export const SectionRooms = props => {
 	// create the markup for the nights columns
 	let nights = getDateRange(state.start, state.end);
 	let nightHeaderColumns = nights.map((night, i) => <td className="date" key={i}>
-		<AllocationDate date={night} index={i} isEditing={isEditing} callback={e => dispatch({ type: 'date', total: nights.length-1, date: e.target.value })} />
+		<AllocationDate date={night} index={i} isEditing={isEditing} callback={date => dispatch({ type: 'date', total: nights.length-1, date: date })} />
 	</td>);
 
 	// on submit, set state and save to database
@@ -123,7 +124,7 @@ export const SectionRooms = props => {
 							))}
 							{isEditing ? 
 								<tr>
-									<td colSpan={state.rooms.length + 3}>
+									<td colSpan={nights.length+3}>
 										<button className="add" onClick={() => dispatch({ type: 'addRoom', nights: nights.length })}>
 											<img src="/assets/images/add.svg" alt="Add room" />
 										</button>
@@ -191,7 +192,7 @@ export const AllocationDate = props => {
 	// only show an input field for the first column
 	// other columns dynamically populated
 	if(props.isEditing && props.index === 0) {
-		return <input required name="date" type="date" value={props.date.format('YYYY-MM-DD')} onChange={props.callback} />
+		return <DatePicker selected={props.date.toDate()} onChange={props.callback} />
 	}
 	return <span>{props.date.format('D MMM')}</span>;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
 import { BlockNumber, SectionEditMenu, SectionLoader } from './Section';
 import { store } from '../store';
 
@@ -25,8 +26,8 @@ const SectionEvent = props => {
 		<React.Fragment>
 			<input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
 			<input name="venue" type="text" value={venue} onChange={e => setVenue(e.target.value)} />
-			<input name="start" type="date" value={start} onChange={e => setStart(e.target.value)} />
-			<input name="end" type="date" value={end} onChange={e => setEnd(e.target.value)} />
+			<DatePicker name="start" selected={moment(start).toDate()} onChange={date => setStart(date)} />
+			<DatePicker name="end" selected={moment(end).toDate()} onChange={date => setEnd(date)} />
 		</React.Fragment>
 	:
 		<React.Fragment>
@@ -84,7 +85,7 @@ const SectionEvent = props => {
 			<div className="content">
 				<h2 className="title">Event <span className="subtitle">- Name, venue &amp; dates</span></h2>
 				<div className="body">
-					<p className="filled">{content}</p>
+					<div className="filled">{content}</div>
 				</div>
 			</div>
 			{isLoading && <SectionLoader />}

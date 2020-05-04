@@ -39,6 +39,11 @@ section {
 		transition: all .2s;
 	}
 
+	input[type=date],
+	input[type=number] {
+		padding-right: 2px;
+	}
+
 	textarea {
 		max-width: 100%; 
 	}
@@ -120,7 +125,7 @@ section {
 			& > * {
 				margin-right: 5px;
 
-				&:last-of-type { 
+				&:last-child { 
 					margin-right: 0; 
 				}
 			}
@@ -136,10 +141,11 @@ section {
 		text-align: left;
 
 		tr {
-			position: relative;
+			// position: relative;
 		}
 
 		td { 
+			position: relative; 
 			padding: 0.5rem 2px; 
 		}
 
@@ -165,9 +171,10 @@ section {
 		input[type=number] {
 			@include font(heading, normal);
 		}
-		
-		input[type=date] {
+
+		.react-datepicker-wrapper input[type=text] {
 			@include font(heading, black);
+			width: 100px;
 			color: $darkest;
 		}
 	}
@@ -375,5 +382,44 @@ section {
 		justify-content: center;
 		align-content: center;
 		background-color: transparentize($primary, 0.5);
+	}
+
+	.react-datepicker {
+		@include font(heading, normal);
+		box-shadow: transparentize($darkest, 0.8) 0 0 20px;
+		border: 3px solid $secondary;
+		font-weight: normal;
+		
+		&__triangle,
+		&__triangle::before {
+			border-bottom-color: $secondary;
+		}
+
+		&__header {
+			background-color: lighten($secondary, 50%);
+			border-bottom: 0;
+			border-top-left-radius: 0.2rem;
+			border-top-right-radius: 0.2rem;
+		}
+
+		&__navigation--next {
+			border-left-color: $secondary;
+		}
+
+		&__navigation--previous {
+			border-right-color: $secondary;
+		}
+
+		&__current-month {
+			color: $darkest;
+		}
+
+		&__day--selected {
+			background-color: $secondary;
+
+			&:hover {
+				background-color: darken($secondary, 10%);
+			}
+		}
 	}
 }

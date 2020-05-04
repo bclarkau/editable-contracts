@@ -39,6 +39,7 @@
     "dotenv-webpack": "^1.7.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
+    "react-datepicker": "^2.14.1",
     "react-dom": "^16.8.6",
     "react-joyride": "^2.2.1",
     "react-router": "^5.1.2",
