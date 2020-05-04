@@ -8,9 +8,18 @@ header {
 		&__logo {
 			display: flex;
 			align-items: center;
-			color: $light;
-			font-size: 1.5rem;
-			font-weight: 800;
+
+			a {
+				color: $light;
+				font-size: 1.5rem;
+				font-weight: 800;
+				text-decoration: none;
+				transition: color .2s;
+
+				&:hover {
+					color: $primary;
+				}
+			}
 		}
 
 		&__slogan {

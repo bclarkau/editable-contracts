@@ -20,7 +20,9 @@ export const Header = props => {
 		<header>
 			<div className="container">
 				<div className="brand">
-					<div className="brand__logo">benclark.dev</div>
+					<div className="brand__logo">
+						<a href="/">benclark.dev</a>
+					</div>
 					<div className="brand__slogan">Editable contracts demo</div>
 				</div>
 				{title}
