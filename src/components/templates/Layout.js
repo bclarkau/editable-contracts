@@ -12,7 +12,10 @@ export const Header = props => {
 			<span className="name__line2">Contract #{props.event}</span>
 		</h1>
 		<div className="qrcode">
-			<div className="qrcode__image"><img src={`https://api.qrserver.com/v1/create-qr-code/?data=${props.link}`} /></div>
+			<div className="qrcode__image">
+				<img className="code" src={`https://api.qrserver.com/v1/create-qr-code/?data=${props.link}`} />
+				<img className="loader" src="/assets/images/load.svg" alt="..." />
+			</div>
 		</div>
 	</div> : false;
 
